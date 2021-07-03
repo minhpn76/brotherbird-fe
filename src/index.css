@@ -1,0 +1,76 @@
+body {
+  margin: 0;
+  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif; */
+  font-family: 'Open Sans', sans-serif!important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+a {
+  color: #000000!important;
+}
+
+a:hover {
+  text-decoration: none!important;
+}
+
+.banner {
+  background: url(./assets/images/banner_first.png);
+  background-position: center 80%!important;
+  height: 775px;
+  
+}
+.product {
+  background-color: #F3F3F7;
+}
+.product .pre {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ padding-top: 150px;
+}
+.product .pre a {
+  display: inline-block;
+  font-size: 18px;
+  line-height: 23px;
+  background: #000;
+  color: #fff!important;
+  padding: 10px 35px;
+  margin: 15px 0 40px;
+  transition: .5s;
+  border: 1px solid #000;
+  border-radius: 0;
+}
+.product .pre a:hover {
+  color: #000!important;
+  background-color: #fff;
+}
+.product img {
+  width: 100%; 
+}
+.info {
+  background: url(./assets/images/info.png);
+  background-position: bottom center;
+  padding: 95px 0;
+}
+.line {
+  background: #E5E7EB;
+  height: 70px;
+  width: 100%;
+}
+.info .contact {
+  background: #fff;
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.info .contact h6 {
+  margin-bottom: 20px
+}

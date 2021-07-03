@@ -1,0 +1,11 @@
+.pre-order .section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 0
+}
+
+.pre-order .section h6 {
+    margin-bottom: 0px;
+    font-weight: 600;
+}
