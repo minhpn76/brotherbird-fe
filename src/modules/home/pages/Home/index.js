@@ -8,6 +8,7 @@ import Product from "../../../../assets/images/product.png";
 import DontForget from "../../../../assets/images/dont_forget.png";
 
 import {ThankYou} from '../../../../components/layouts/main/components'
+import pathRoutes from '../../../../helper/pathRoutes'
 
 function Home() {
   return (
@@ -18,7 +19,7 @@ function Home() {
         <Container fluid={true}>
           <Row>
             <Col md={12} className="pre">
-              <a href="#">pre-order</a>
+              <a href={pathRoutes.shop}>pre-order</a>
             </Col>
           </Row>
           <Row>

@@ -4,19 +4,20 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Logo from "../../../../../assets/images/logo.png"
 import "./header.css";
+import pathRoutes from '../../../../../helper/pathRoutes'
 
 function Header() {
     const menus = [
-        { label: 'HOME', value: 'home', link: '/' },
-        { label: 'SHOP', value: 'shop', link: '#' },
-        { label: 'FAQ', value: 'faq', link: '#' }
+        { label: 'HOME', value: 'home', link: pathRoutes.home },
+        { label: 'SHOP', value: 'shop', link: pathRoutes.shop },
+        { label: 'FAQ', value: 'faq', link: pathRoutes.faq }
     ]
     return (
         <section className="header">
             <Container fluid={true}>
                 <Row>
                     <Col md="3" className="logo">
-                        <img alt="logo" src={Logo} />
+                        <a href={pathRoutes.home}><img alt="logo" src={Logo} /></a>
                     </Col>
                     <Col md="7" className="menu">
                         {
