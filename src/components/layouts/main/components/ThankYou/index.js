@@ -18,7 +18,7 @@ function ThankYou() {
     <div className="thank-you">
       <Modal className="dialog-th" show={show} onHide={handleClose} centered>
         <Modal.Header closeButton></Modal.Header>
-        <img src={ImgThankYou}/>
+        <img src={ImgThankYou} alt="thankyou"/>
       </Modal>
     </div>
   )

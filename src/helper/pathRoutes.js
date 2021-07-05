@@ -2,8 +2,8 @@ const paths = {
     home: "/",
     login: "/login",
     register: '/register',
-    shop: '#',
-    faq: '#',
+    collection: '#',
+    faq: '/faq',
     pwerShopify: '#',
     instagram: '#'
   };

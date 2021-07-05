@@ -19,7 +19,7 @@ function Home() {
         <Container fluid={true}>
           <Row>
             <Col md={12} className="pre">
-              <a href={pathRoutes.shop}>pre-order</a>
+              <a href={pathRoutes.collection}>pre-order</a>
             </Col>
           </Row>
           <Row>

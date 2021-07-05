@@ -5,15 +5,21 @@ import Col from 'react-bootstrap/Col';
 import Logo from "../../../../../assets/images/logo.png"
 import "./header.css";
 import pathRoutes from '../../../../../helper/pathRoutes'
+import { useLocation } from 'react-router-dom';
+import { BACKGROUD_CODE } from '../../../../../helper/consts'
 
 function Header() {
+    const location = useLocation();
     const menus = [
-        { label: 'HOME', value: 'home', link: pathRoutes.home },
-        { label: 'SHOP', value: 'shop', link: pathRoutes.shop },
+        { label: 'HOME', value: '', link: pathRoutes.home },
+        { label: 'SHOP', value: 'collection', link: pathRoutes.collection },
         { label: 'FAQ', value: 'faq', link: pathRoutes.faq }
     ]
     return (
-        <section className="header">
+        <section className="header" 
+            style={ location.pathname === pathRoutes.home ? {background: BACKGROUD_CODE['home']} : (
+                location.pathname === pathRoutes.faq ? {background: BACKGROUD_CODE['faq']} : {}
+            )}>
             <Container fluid={true}>
                 <Row>
                     <Col md="3" className="logo">
@@ -24,7 +30,9 @@ function Header() {
                             menus.map((menu, idx) => {
                                 return (
                                     <div key={idx}>
-                                        <a href={menu.link} className={idx === 0 ? 'active' : ''}>{menu.label}</a>
+                                        <a  href={menu.link} 
+                                            className={location.pathname === `/${menu.value}` ? 'active' : ''}
+                                        >{menu.label}</a>
                                     </div>
                                 )
                             })
