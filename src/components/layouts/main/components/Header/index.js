@@ -10,9 +10,10 @@ import { BACKGROUD_CODE } from '../../../../../helper/consts'
 
 function Header() {
     const location = useLocation();
+    console.log('XX', location.pathname);
     const menus = [
         { label: 'HOME', value: '', link: pathRoutes.home },
-        { label: 'SHOP', value: 'collection', link: pathRoutes.collection },
+        { label: 'SHOP', value: 'collections', link: pathRoutes.collection },
         { label: 'FAQ', value: 'faq', link: pathRoutes.faq }
     ]
     return (
@@ -29,8 +30,12 @@ function Header() {
                                 return (
                                     <div key={idx}>
                                         <a  href={menu.link} 
-                                            className={location.pathname === `/${menu.value}` ? 'active' : ''}
+                                            className={location.pathname === `/${menu.value}` ? 'active' : (
+                                                location.pathname.includes(pathRoutes.collection) 
+                                                && ![pathRoutes.home, pathRoutes.faq].includes(menu.link) ? 'active' : ''
+                                            )}
                                         >{menu.label}</a>
+                                        {console.log('##', location.pathname.includes('collections'))}
                                     </div>
                                 )
                             })

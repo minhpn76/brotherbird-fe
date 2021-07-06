@@ -12,9 +12,6 @@ function CollectionItem(props) {
         <Row>
           <Col md="12" style={{ textAlign: "center" }}>
             <h3>Item</h3>
-            <p className="desc">
-              <strong>Purchase delivery "date-slots" for the month</strong>
-            </p>
           </Col>
         </Row>
         <Row>
