@@ -10,6 +10,6 @@ import {
 } from "redux-saga/effects";
 import { RootState } from "../../redux/store";
 
-export default function* faqSaga() {
+export default function* collectionSaga() {
     yield all([]);
   }

@@ -2,10 +2,11 @@ const paths = {
     home: "/",
     login: "/login",
     register: '/register',
-    collection: '#',
+    collection: '/collections',
     faq: '/faq',
     pwerShopify: '#',
-    instagram: '#'
+    instagram: '#',
+    product: 'product'
   };
   
   export default paths;

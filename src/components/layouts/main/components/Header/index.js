@@ -17,9 +17,7 @@ function Header() {
     ]
     return (
         <section className="header" 
-            style={ location.pathname === pathRoutes.home ? {background: BACKGROUD_CODE['home']} : (
-                location.pathname === pathRoutes.faq ? {background: BACKGROUD_CODE['faq']} : {}
-            )}>
+            style={ location.pathname === pathRoutes.home ? {background: BACKGROUD_CODE['home']} : {background: BACKGROUD_CODE['faq']}}>
             <Container fluid={true}>
                 <Row>
                     <Col md="3" className="logo">
