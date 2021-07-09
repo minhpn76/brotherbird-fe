@@ -16,21 +16,41 @@
     justify-content: flex-end;
     align-items: center;
 }
-.header .menu div {
+.header .menu .block {
    padding: 0 20px;
 }
-.header .menu div  a {
+.header .menu .block  .inline-menu {
     color: #000000;
     font-weight: 600;
     font-size: 14px;
+    cursor: pointer;
 }
-.header .menu div  a:hover {
+.header .menu .block  .inline-menu:hover {
    text-decoration: none;
 }
-.header .menu div  a.active {
+.header .menu .block  .inline-menu.active {
     border-bottom: 2px solid #000000;
     padding-bottom: 2px;
 
+}
+.header .menu .sub-menu {
+    background: #fff;
+    border-radius: 2px;
+    position: absolute;
+    display: flex;
+    width: 170px;
+    padding: 10px 20px;
+    flex-direction: column;
+    font-weight: 600;
+    top: 30px;
+}
+.header .menu .sub-menu div {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    cursor: pointer;
+}
+.header .menu .sub-menu div span:hover {
+    border-bottom: 2px solid #000000;
 }
 .header .cart div {
     display: flex;
