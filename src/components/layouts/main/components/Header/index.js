@@ -17,7 +17,7 @@ function Header() {
   const location = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
-
+  
   const menus = [
     { label: 'HOME', value: '', link: pathRoutes.home, sub: false },
     { label: 'SHOP', value: 'collections', link: pathRoutes.collection, sub: true },
@@ -41,7 +41,7 @@ function Header() {
     const resps = await dispatch(shopStart(time))
     const status = unwrapResult(resps);
     if (!isEmpty(status)) {
-      history.push(`${pathRoutes.collection}/${pathRoutes.product}/${status.path}`)
+      history.push(`${pathRoutes.collection}/${status.path}`)
     }
   }
 
@@ -61,7 +61,9 @@ function Header() {
                     <div onClick={(e) => handlePushLink(e, menu.link)}
                       className={location.pathname === `/${menu.value}` && !openSub ? 'active inline-menu' : (
                         openSub
-                          && ![pathRoutes.home, pathRoutes.faq].includes(menu.link) ? 'active inline-menu' : 'inline-menu'
+                          && ![pathRoutes.home, pathRoutes.faq].includes(menu.link)
+                          || (location.pathname.includes(menu.link) && idx !== 0)
+                         ? 'active inline-menu' : 'inline-menu'
                       )}
                     >
                       <span>{menu.label}</span>

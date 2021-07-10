@@ -19,15 +19,11 @@ function Collections() {
     state => state.home.data.shop
   );
 
-  const redirectItem = (item) => {
-    console.log('333', getDateFromDay({
-      day: item,
-      month: shopSelected.month,
-      year: shopSelected.year,
-    }));
-    // history.push(`${paths.collection}/${paths.product}/${item}`)
+  const redirectItem = (e, item, date) => {
+    e.preventDefault();
+    const payload = `${covertPad2(item)}${(shopSelected.month).toLowerCase()}`
+    history.push(`${paths.collection}${paths.product}/${payload}`)
   }
-
 
   return (
     <div className="collections">
@@ -45,7 +41,13 @@ function Collections() {
             Array.from(Array(shopSelected.dayInMonth), (_, i) => i + 1).map((item, idx) => {
               return (
                 <Col md="3" className="prd" key={idx}>
-                  <a href='javascript:;' onClick={() => redirectItem(item)}>
+                  <div
+                    className="section"
+                    onClick={(e) => redirectItem(e, item, getDateFromDay({
+                    day: item,
+                    month: shopSelected.month,
+                    year: shopSelected.year,
+                  }))}>
                     <div className="img">
                       <div className="top">
                         <p>
@@ -76,7 +78,7 @@ function Collections() {
                         SOLD OUT
                       </span>
                     </div>
-                  </a>
+                  </div>
                 </Col>
               )
             })

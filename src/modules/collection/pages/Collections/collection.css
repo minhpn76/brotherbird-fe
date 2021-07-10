@@ -11,6 +11,9 @@
 .collections .list-product .prd {
     margin-bottom: 50px;
 }
+.collections .list-product .prd .section {
+    cursor: pointer;
+}
 .collections .img {
     width: 100%;
     height: 250px;

@@ -1,0 +1,108 @@
+.collection-item {
+    background-color: #fafafa;
+}
+.collection-item .path {
+    border-bottom: 2px solid #a5a5a5;
+    padding-bottom: 20px;
+}
+.collection-item .name{
+    font-size: 40px;
+    font-weight: 600;
+}
+.collection-item .price {
+    font-weight: 900;
+    font-size: 20px;
+    margin-right: 20px;
+}
+.collection-item .status-item {
+    border: 1px solid #000;
+    padding: 2px 10px;
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: 600;
+}
+.collection-item .kind {
+    margin-top: 30px;
+}
+.collection-item .kind .quanlity span {
+    font-size: 18px;
+    font-weight: 600;
+    margin-right: 30px;
+}
+.collection-item .kind .quanlity input {
+    background: #f5f4f4;
+    border-color: #dadada;
+    padding: 10px 15px;
+    border: 1px solid #fff;
+}
+.collection-item .list-kind {
+    width: 100%;
+    float: left;
+    margin-top: 20px;
+}
+.collection-item .list-kind .type {
+    width: 100%;
+    float: left;
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    justify-content: space-around;
+}
+.collection-item .list-kind .type .check-box {
+    float: left;
+    text-align: left;
+    transform: scale(2);
+}
+.collection-item .list-kind .type .inform {
+    width: 80%;
+    float: left;
+    display: flex;
+}
+.collection-item .list-kind .type img {
+    width: 50px;
+    height: 50px;
+}
+.collection-item .list-kind .type .inform .accessy-item{
+    display: flex;
+    flex-direction: column;
+    padding-left: 15px;
+    
+}
+.collection-item .list-kind .type .inform .accessy-item span:first-child {
+    font-size: 16px;
+}
+.collection-item .list-kind .type .inform .accessy-item span:last-child {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.collection-item .checkout {
+    width: 100%;
+    float: left;
+    margin-top: 20px;
+}
+.collection-item .checkout button {
+    border-radius: 0;
+    padding: 10px 20px;
+}
+
+.collection-item .item-desc {
+    width: 100%;
+    float: left;
+    margin-top: 100px;
+}
+.collection-item .item-desc .hash {
+    text-decoration: underline;
+    font-weight: 600;
+    font-size: 16px;
+}
+.collection-item .item-desc {
+    font-size: 15px;
+    color: #000;
+}
+.collection-item .item-desc .hr-line {
+    width: 100%;
+    height: 1px;
+    background-color: #000;
+    margin: 40px 0;
+}
