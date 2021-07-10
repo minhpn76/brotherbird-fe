@@ -1,5 +1,5 @@
 .collections {
-    background-color: #e5e7eb;
+    background-color: #fafafa;
 }
 .collections .desc {
     margin-top: 20px;
@@ -14,7 +14,36 @@
 .collections .img {
     width: 100%;
     height: 250px;
+    padding: 15px;
+    background-color: #e4e8eb;
+    position: relative;
 }
+.collections .img .top {
+    border-bottom: 1px solid #bdc1c4;
+    display: flex;
+    align-items: center;
+}
+.collections .img .top p {
+    width: 50%;
+    text-align: left;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    font-size: 13px;
+    color: #54585b;
+    font-weight: 600;
+}
+
+.collections .img .bottom {
+    position: absolute;
+    bottom: 0;
+    right: 15px;
+}
+.collections .img .bottom p {
+    font-size: 105px;
+    margin-bottom: 0;
+}
+
 .collections .tile {
     margin-top: 15px;
 }

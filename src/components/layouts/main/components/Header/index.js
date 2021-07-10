@@ -5,13 +5,18 @@ import Col from 'react-bootstrap/Col';
 import Logo from "../../../../../assets/images/logo.png"
 import "./header.css";
 import pathRoutes from '../../../../../helper/pathRoutes'
+import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { BACKGROUD_CODE } from '../../../../../helper/consts'
 import { getNearYears } from '../../../../../helper/times';
+import { isEmpty } from 'lodash';
+import { shopStart } from '../../../../../modules/home/redux'
+import { unwrapResult } from '@reduxjs/toolkit';
 
 function Header() {
   const location = useLocation();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const menus = [
     { label: 'HOME', value: '', link: pathRoutes.home, sub: false },
@@ -28,6 +33,16 @@ function Header() {
       return;
     }
     history.push(link)
+  }
+
+  const handleSelectMonth = async (e, time) => {
+    e.preventDefault();
+    if (isEmpty(time)) return;
+    const resps = await dispatch(shopStart(time))
+    const status = unwrapResult(resps);
+    if (!isEmpty(status)) {
+      history.push(`${pathRoutes.collection}/${pathRoutes.product}/${status.path}`)
+    }
   }
 
   return (
@@ -58,7 +73,12 @@ function Header() {
                           {
                             getNearYears().map((time, idx) => {
                               return (
-                                <div key={idx}><span>{time.label}</span></div>
+                                <div 
+                                  onClick={(e) => handleSelectMonth(e, time)} 
+                                  key={idx}
+                                >
+                                  <span>{time.label}</span>
+                                </div>
                               )
                             })
                           }

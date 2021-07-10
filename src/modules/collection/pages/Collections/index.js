@@ -1,5 +1,5 @@
-import React, { memo } from "react";
-
+import React, { memo, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -7,22 +7,34 @@ import ImgShuShi from "../../../../assets/images/shushi.png";
 import "./collection.css";
 import paths from "../../../../helper/pathRoutes";
 import { useHistory, useLocation } from "react-router-dom";
+import {getDateFromDay} from '../../../../helper/times'
+import { covertPad2 } from "../../../../helper/utils";
 
 function Collections() {
   const listItem = [1, 2, 3, 4,5];
   const history = useHistory();
   const location = useLocation();
-  console.log('location', history);
+
+  const shopSelected = useSelector(
+    state => state.home.data.shop
+  );
 
   const redirectItem = (item) => {
-    history.push(`${paths.collection}/${paths.product}/${item}`)
+    console.log('333', getDateFromDay({
+      day: item,
+      month: shopSelected.month,
+      year: shopSelected.year,
+    }));
+    // history.push(`${paths.collection}/${paths.product}/${item}`)
   }
+
+
   return (
     <div className="collections">
       <Container style={{ padding: "50px 0" }}>
         <Row>
           <Col md="12" style={{ textAlign: "center" }}>
-            <h3>JULY 2021</h3>
+            <h3>{shopSelected.label}</h3>
             <p className="desc">
               <strong>Purchase delivery "date-slots" for the month</strong>
             </p>
@@ -30,12 +42,30 @@ function Collections() {
         </Row>
         <Row className="list-product">
           {
-            listItem.map((item, idx) => {
+            Array.from(Array(shopSelected.dayInMonth), (_, i) => i + 1).map((item, idx) => {
               return (
-                <Col md="3" className="prd">
+                <Col md="3" className="prd" key={idx}>
                   <a href='javascript:;' onClick={() => redirectItem(item)}>
-                    <div>
-                      <img className="img" src={ImgShuShi} alt="item" />
+                    <div className="img">
+                      <div className="top">
+                        <p>
+                          {getDateFromDay({
+                            day: item,
+                            month: shopSelected.month,
+                            year: shopSelected.year,
+                          }).month}
+                        </p>
+                        <p>
+                          {getDateFromDay({
+                            day: item,
+                            month: shopSelected.month,
+                            year: shopSelected.year,
+                          }).day}
+                        </p>
+                      </div>
+                      <div className="bottom">
+                        <p>{covertPad2(item)}</p>
+                      </div>
                     </div>
                     <div className="tile">
                       <h6 className="name">Shushi 01</h6>

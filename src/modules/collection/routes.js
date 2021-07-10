@@ -5,14 +5,8 @@ import paths from "../../helper/pathRoutes";
 
 const routes = [
   {
-    path: paths.collection,
-    page: Collections,
-    exact: true,
-    layout: MainLayout,
-  },
-  {
     path: `${paths.collection}/${paths.product}/:item`,
-    page: CollectionItem,
+    page: Collections,
     exact: true,
     layout: MainLayout,
   },
