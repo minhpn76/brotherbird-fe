@@ -4,8 +4,6 @@ import React from "react";
 
 function AppRoute (props) {
     const {page: Component, layout: Layout, ...rest} = props;
-    console.log('props', props);
-    console.log('Component', Component);
     return (
         <Route
           {...rest}

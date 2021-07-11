@@ -68,6 +68,17 @@
     padding-left: 15px;
     
 }
+.collection-item .list-kind .type .inform .accessy-item .price {
+    font-size: 18px;
+    font-weight: 600;
+}
+.collection-item .list-kind .type .inform .accessy-item input {
+    background: #f5f4f4;
+    border-color: #dadada;
+    padding: 10px 15px;
+    border: 1px solid #fff;
+    width: 80px;
+}
 .collection-item .list-kind .type .inform .accessy-item span:first-child {
     font-size: 16px;
 }

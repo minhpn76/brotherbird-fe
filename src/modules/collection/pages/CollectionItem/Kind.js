@@ -1,46 +1,40 @@
-import React, { memo } from "react";
+import React, { memo, useState, useImperativeHandle, forwardRef, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import IconShuShi from '../../../../assets/images/shushi.png'
 
-function Kind() {
+function Kind(props, ref) {
+  const {baseProduct, kindProduct, handleChangeQuanlity} = props;
+
   return (
     <>
       <div className="kind">
         <div className="quanlity">
           <span>Quanlity</span>
-          <input min="1" max="100" type="number" value="1" />
+          <input min="1" max="100" type="number" defaultValue={1}
+          value={baseProduct.quanlity}/>
         </div>
         <div className="list-kind">
-          <div className="type">
-            <input className="check-box" type="checkbox" />
-            <div className="inform">
-              <img src={IconShuShi} alt="item" />
-              <div className="accessy-item">
-                <span>ICED COLD BREW (WHITE)</span>
-                <span>$7.00</span>
-              </div>
-            </div>
-          </div>
-          <div className="type">
-            <input className="check-box" type="checkbox" />
-            <div className="inform">
-              <img src={IconShuShi} alt="item" />
-              <div className="accessy-item">
-                <span>ICED COLD BREW (WHITE)</span>
-                <span>$7.00</span>
-              </div>
-            </div>
-          </div>
-          <div className="type">
-            <input className="check-box" type="checkbox" />
-            <div className="inform">
-              <img src={IconShuShi} alt="item" />
-              <div className="accessy-item">
-                <span>ICED COLD BREW (WHITE)</span>
-                <span>$7.00</span>
-              </div>
-            </div>
-          </div>
+          {
+            kindProduct.map((p, idx) => {
+              return (
+                <div className="type">
+                  <input className="check-box" type="checkbox" />
+                  <div className="inform">
+                    <img src={p.image} alt="item" />
+                    <div className="accessy-item">
+                      <span>{p.name}</span>
+                      <span className="price">{p.price}</span>
+                      <input 
+                        onChange={(e) => handleChangeQuanlity(p, e)} 
+                        min="1" max="100" type="number" defaultValue={1} 
+                        value={p.quanlity} 
+                      />
+                    </div>
+                  </div>
+                </div>
+              )
+            })
+          }
         </div>
       </div>
       <div className="checkout">
@@ -50,4 +44,4 @@ function Kind() {
   );
 }
 
-export default memo(Kind);
+export default memo(forwardRef(Kind));
