@@ -1,0 +1,53 @@
+.cart-section {
+    background-color: #fafafa;
+}
+.cart-section .list-item {
+    display: flex;
+    width: 100%;
+    float: left;
+}
+.cart-section .list-item .table-responsive-md{
+    width: 100%;
+}
+.cart-section .list-item .table-responsive-md table thead tr, .cart-section .list-item .table-responsive-md table tfoot tr {
+    text-align: right;
+}
+.cart-section .list-item .table-responsive-md table tbody{
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    
+}
+.cart-section .list-item .table-responsive-md table tbody tr td:nth-child(2), .cart-section .list-item .table-responsive-md table tbody tr td:nth-child(3){
+    text-align :right;
+}
+
+.cart-section .list-item .table-responsive-md table tbody tr td {
+    padding: 25px 10px;
+}
+.cart-section .detail-item {
+    display: flex;
+    align-items: center;
+}
+.cart-section .detail-item .view-info {
+    margin-left: 30px;
+    display: flex;
+    flex-direction: column;
+}
+.cart-section .detail-item .view-info span:first-child {
+    margin-bottom: 20px;
+}
+.cart-section .detail-item .view-info span:last-child {
+    cursor: pointer;
+    text-decoration: underline;
+}
+.cart-section input {
+    background: #f5f4f4;
+    border-color: #dadada;
+    padding: 10px 15px;
+    border: 1px solid #fff;
+    width: 80px;
+}
+
+.cart-section tfoot th:last-child {
+    font-size: 18px;
+}

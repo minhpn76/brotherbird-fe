@@ -1,9 +1,14 @@
 import React, { memo, useState, useImperativeHandle, forwardRef, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import IconShuShi from '../../../../assets/images/shushi.png'
+import {typeActionKind} from '../../../../helper/utils'
 
 function Kind(props, ref) {
-  const {baseProduct, kindProduct, handleChangeQuanlity} = props;
+  const {
+    baseProduct, kindProduct, 
+    handleChooseKind,
+    handleSoldOut
+  } = props;
 
   return (
     <>
@@ -17,17 +22,18 @@ function Kind(props, ref) {
           {
             kindProduct.map((p, idx) => {
               return (
-                <div className="type">
-                  <input className="check-box" type="checkbox" />
+                <div className="type" key={idx}>
+                  <input className="check-box" type="checkbox" 
+                    onChange={(e) => {handleChooseKind({type: typeActionKind.SELECT,item: p, e})}}
+                  />
                   <div className="inform">
                     <img src={p.image} alt="item" />
                     <div className="accessy-item">
                       <span>{p.name}</span>
                       <span className="price">{p.price}</span>
                       <input 
-                        onChange={(e) => handleChangeQuanlity(p, e)} 
+                        onChange={(e) => {handleChooseKind({type: typeActionKind.QUANTITY,item: p, e})}}
                         min="1" max="100" type="number" defaultValue={1} 
-                        value={p.quanlity} 
                       />
                     </div>
                   </div>
@@ -38,7 +44,7 @@ function Kind(props, ref) {
         </div>
       </div>
       <div className="checkout">
-        <Button variant="dark">Sold out</Button>
+        <Button variant="dark" onClick={handleSoldOut}>Sold out</Button>
       </div>
     </>
   );

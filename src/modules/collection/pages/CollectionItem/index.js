@@ -11,8 +11,15 @@ import Condition from './Condition';
 import Kind from './Kind';
 import pathRoutes from '../../../../helper/pathRoutes'
 import './collection-item.css'
-import {covertPad2} from '../../../../helper/utils';
-import { cloneDeep, omit } from "lodash";
+import {typeActionKind, covertPad2} from '../../../../helper/utils'
+import Storage from '../../../../helper/storage';
+import { isEmpty, isUndefined } from "lodash";
+
+let kindProduct = [
+  { id: 1, name: 'ICED COLD BREW (WHITE)', price: '$7.00', quanlity: 1, image: IconShuShi, selected: false},
+  { id: 2, name: 'CED COLD BREW (BLACK)', price: '$7.00', quanlity: 1, image: IconShuShi, selected: false},
+  { id: 3, name: 'ICED MATCHA COLD BREW', price: '$7.00', quanlity: 1, image: IconShuShi, selected: false},
+]
 
 function CollectionItem(props) {
   const history = useHistory();
@@ -31,18 +38,33 @@ function CollectionItem(props) {
     id: 0,
     quanlity: null
   })
-
-  const [kindProduct, setKindProduct] = useState(
-    [
-      { id: 1, name: 'ICED COLD BREW (WHITE)', price: '$7.00', quanlity: 1, image: IconShuShi, selected: false},
-      { id: 2, name: 'CED COLD BREW (BLACK)', price: '$7.00', quanlity: 1, image: IconShuShi, selected: false},
-      { id: 3, name: 'ICED MATCHA COLD BREW', price: '$7.00', quanlity: 1, image: IconShuShi, selected: false},
-    ]
-  )
   
-  const handleChangeQuanlity = (item, e) => {
-    
+  const handleChooseKind = ({type, item, e}) => {
+    let newArray = []
+    kindProduct.forEach(kind => {
+      if (kind.id !== item.id) {
+        newArray.push(kind)
+      } else {
+        newArray.push({
+          id: kind.id,
+          name: kind.name,
+          quanlity: type === typeActionKind.QUANTITY ? + e.target.value : kind.quanlity,
+          price: kind.price,
+          image: kind.image,
+          selected: type === typeActionKind.SELECT ? e.target.checked : kind.selected
+        })
+      }
+    })
+    kindProduct = newArray
   }
+
+  const handleSoldOut = (e) => {
+    e.preventDefault();
+    Storage.set('cart', JSON.stringify(kindProduct.filter(i => i.selected)))
+    history.push(pathRoutes.cart)
+  }
+
+  
   const params = useParams();
   return (
     <div className="collection-item">
@@ -60,7 +82,8 @@ function CollectionItem(props) {
             <Kind 
               baseProduct={baseProduct}
               kindProduct={kindProduct}
-              handleChangeQuanlity={handleChangeQuanlity}
+              handleChooseKind={handleChooseKind}
+              handleSoldOut={handleSoldOut}
             />
             <Condition/>
           </Col>
