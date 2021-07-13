@@ -1,11 +1,7 @@
-import { Redirect, BrowserRouter as Router, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 
 import AppRoute from "../router/AppRoute";
-import { RootState } from "../redux/store";
 import Routes from "./routes";
-import pathRoutes from "../helper/pathRoutes";
-import { useSelector } from "react-redux";
-
 function AppRouter() {
   // const { isAuthenticated } = useSelector((state) => state.auth.data);
   return (

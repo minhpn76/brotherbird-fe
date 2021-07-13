@@ -1,19 +1,16 @@
-import React, { memo, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { memo, } from "react";
+import { useSelector } from "react-redux";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import ImgShuShi from "../../../../assets/images/shushi.png";
 import "./collection.css";
 import paths from "../../../../helper/pathRoutes";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {getDateFromDay} from '../../../../helper/times'
 import { covertPad2 } from "../../../../helper/utils";
 
 function Collections() {
-  const listItem = [1, 2, 3, 4,5];
   const history = useHistory();
-  const location = useLocation();
 
   const shopSelected = useSelector(
     state => state.home.data.shop

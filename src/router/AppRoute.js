@@ -1,4 +1,4 @@
-import { Route, RouteProps } from "react-router-dom";
+import { Route } from "react-router-dom";
 
 import React from "react";
 

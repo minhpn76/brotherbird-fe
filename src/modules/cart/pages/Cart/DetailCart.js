@@ -3,8 +3,27 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
+import {caculatedItem, typeActionKind} from '../../../../helper/utils'
+import Storage from '../../../../helper/storage'
 
-function DetailCart({cart}) {
+
+function DetailCart({cart, setCart}) {
+
+  const handleChooseKind = ({type, item, e}) => {
+    let newArray = caculatedItem({kindProduct: cart, payload: {type, item, e}})
+    setCart(newArray)
+    Storage.set('cart', JSON.stringify(newArray))
+    window.location.reload()
+  }
+
+  const removeItemCart = (e, item) => {
+    e.preventDefault();
+    const items = cart.filter(c => c.id !== item.id);
+    setCart(items)
+    Storage.set('cart', JSON.stringify(items))
+    window.location.reload()
+  }
+
   return (
     <Row>
       <Col md={{ span: 8, offset: 2 }} style={{ textAlign: 'left' }}>
@@ -31,19 +50,19 @@ function DetailCart({cart}) {
                     <tr key={idx}>
                       <td colspan="7" >
                         <div className="detail-item">
-                          <img width="95" height="95" src={c.image} />
+                          <img width="95" height="95" alt={c.name} src={c.image} />
                           <div className="view-info">
                             <span>{c.name}</span>
                             <span><strong>Accessory:&nbsp;&nbsp;</strong>Yes</span>
-                            <span>Remove</span>
+                            <span onClick={(e) => removeItemCart(e, c)}>Remove</span>
                           </div>
                         </div>
                       </td>
                       <td>
                         <div>
                           <input
-                            onChange={(e) => { }}
-                            min="1" max="100" type="number" defaultValue={1}
+                            onChange={(e) => {handleChooseKind({type: typeActionKind.QUANTITY,item: c, e})}}
+                            min="1" max="100" type="number" value={c.quanlity} defaultValue={1}
                           />
                         </div>
                       </td>

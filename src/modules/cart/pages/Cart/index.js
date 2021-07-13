@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 
 import Container from "react-bootstrap/Container";
 import Storage from "../../../../helper/storage";
@@ -8,7 +8,8 @@ import './cart.css';
 import { isEmpty } from "lodash";
 
 function Cart() {
-  const cart = Storage.get('cart') ? JSON.parse(Storage.get('cart')) : []
+  const [cart, setCart] = useState(Storage.get('cart') ? JSON.parse(Storage.get('cart')) : [])
+
   return (
     <div className="cart-section">
       <Container style={{padding: '50px 0'}}> 
@@ -16,7 +17,10 @@ function Cart() {
           isEmpty(cart) ? (
             <EmptyCart/>
           ) : (
-            <DetailCart cart={cart}/>
+            <DetailCart 
+              cart={cart}
+              setCart={setCart}
+            />
           )
         }
       </Container>
