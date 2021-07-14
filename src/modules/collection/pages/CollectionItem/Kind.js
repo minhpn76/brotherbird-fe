@@ -30,7 +30,7 @@ function Kind(props, ref) {
                     <img src={p.image} alt="item" />
                     <div className="accessy-item">
                       <span>{p.name}</span>
-                      <span className="price">{p.price}</span>
+                      <span className="price">${p.price.toFixed(2)}</span>
                       <input 
                         onChange={(e) => {handleChooseKind({type: typeActionKind.QUANTITY,item: p, e})}}
                         min="1" max="100" type="number" defaultValue={1} 

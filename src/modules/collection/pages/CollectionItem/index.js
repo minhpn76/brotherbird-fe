@@ -15,9 +15,9 @@ import {caculatedItem} from '../../../../helper/utils'
 import Storage from '../../../../helper/storage';
 
 let kindProduct = [
-  { id: 1, name: 'ICED COLD BREW (WHITE)', price: '$7.00', quanlity: 1, image: IconShuShi, selected: false},
-  { id: 2, name: 'CED COLD BREW (BLACK)', price: '$7.00', quanlity: 1, image: IconShuShi, selected: false},
-  { id: 3, name: 'ICED MATCHA COLD BREW', price: '$7.00', quanlity: 1, image: IconShuShi, selected: false},
+  { id: 1, name: 'ICED COLD BREW (WHITE)', price: 7, quanlity: 1, image: IconShuShi, selected: false},
+  { id: 2, name: 'CED COLD BREW (BLACK)', price: 7, quanlity: 1, image: IconShuShi, selected: false},
+  { id: 3, name: 'ICED MATCHA COLD BREW', price: 7, quanlity: 1, image: IconShuShi, selected: false},
 ]
 
 function CollectionItem(props) {

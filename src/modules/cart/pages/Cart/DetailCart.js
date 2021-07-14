@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Table from 'react-bootstrap/Table'
@@ -23,6 +23,10 @@ function DetailCart({cart, setCart}) {
     Storage.set('cart', JSON.stringify(items))
     window.location.reload()
   }
+
+  const totalPriceCart = useMemo(() => {
+    return cart.reduce((c1, c2) => c1.quanlity*(c1.price).toFixed(2) + c2.quanlity*(c2.price).toFixed(2))
+  }, [cart])
 
   return (
     <Row>
@@ -68,7 +72,7 @@ function DetailCart({cart, setCart}) {
                       </td>
                       <td>
 
-                        <p style={{ fontSize: '18px' }}><strong>{c.price}</strong></p>
+                        <p style={{ fontSize: '18px' }}><strong>${c.price.toFixed(2)}</strong></p>
                       </td>
                     </tr>
                   )
@@ -85,7 +89,7 @@ function DetailCart({cart, setCart}) {
                 <th > </th>
                 <th > </th>
                 <th>Subtotal</th>
-                <th>$7.00SGD</th>
+                <th>${totalPriceCart.toFixed(2)}SGD</th>
               </tr>
               <tr>
                 <td > </td>
