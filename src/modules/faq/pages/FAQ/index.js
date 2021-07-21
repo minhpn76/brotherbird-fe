@@ -1,21 +1,34 @@
-import React, { memo } from "react";
-
+import React, { memo, useEffect } from "react";
+import { useSelector } from "react-redux";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import './faq.css';
+import {fetchContentFAQ} from '../../redux'
+import { useDispatch } from "react-redux";
 
 function FAQ() {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(fetchContentFAQ())
+  }, [])
+  const faqContent = useSelector(
+    state => state.faq.faq
+  );
+
   return (
     <div className="faq">
       <Container style={{padding: '50px 0'}}> 
         <Row>
           <Col md="12" style={{textAlign: 'center'}}>
-            <h3>FAQ</h3>
+            <h3>{faqContent.faqTitle}</h3>
           </Col>
         </Row>
         <Row style={{margin: '30px 0 10px 0'}}>
           <Col md="12">
+            {faqContent.faqDescription}
+          </Col>
+          {/* <Col md="12">
             <h6 className="tte">ORDERING ONLINE</h6>
             <ul className="rte">
               <li>
@@ -59,7 +72,7 @@ function FAQ() {
               <li>2. Strictly no changing of order details (e.g. delivery address, pre-order dates etc) upon submission of orders.</li>
               <li>3. All pre-order boxes come as a 6 flavour assorted box (one of each flavour). Strictly no swapping/customisation of flavours.</li>
             </ul>
-          </Col>
+          </Col> */}
         </Row>
       </Container>
     </div>

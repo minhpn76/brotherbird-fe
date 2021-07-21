@@ -1,6 +1,7 @@
 export const AppReducerType = {
     LANGUAGE: "language",
-    HOME: "home"
+    HOME: "home",
+    FAQ: "faq"
 }
 
 export const ReduxState = {

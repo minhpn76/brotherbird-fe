@@ -2,10 +2,16 @@ import { API_REQUEST_TIMEOUT, RESPONSE_CODE } from "../../helper/consts";
 import axios from "axios";
 
 import qs from "qs";
-import { refershTokenUrl } from "./apis/auth/urls";
-import storage from "helper/storage";
+// import { refershTokenUrl } from "./apis/auth/urls";
+import storage from "../../helper/storage";
 
 const RESTFUL_AUTH_URL = process.env.REACT_APP_RESTFUL_AUTH_URL;
+
+const LogType = {
+  REQUEST: "req",
+  RESPONSE: "res",
+  ERROR: "err",
+}
 
 const log = (...params) => {
   if (process.env.NODE_ENV === `development`) {
@@ -47,7 +53,6 @@ const requestLog = (
 };
 
 const headers = {
-  Authorization: "Basic",
   "Content-Type": "application/json",
 };
 
@@ -107,51 +112,51 @@ class HttpClient {
     const config = error?.response?.config;
     const refreshToken = storage.getRefreshToken();
 
-    if (config.url === refershTokenUrl) {
-      storage.removeToken();
-      return Promise.reject(errorData);
-    }
+    // if (config.url === refershTokenUrl) {
+    //   storage.removeToken();
+    //   return Promise.reject(errorData);
+    // }
 
     if (errorCode !== RESPONSE_CODE.TOKEN_EXPIRED) {
       return Promise.reject(errorData);
     }
 
     log("response.error", { error });
-    if (refreshToken) {
-      this.instance
-        .post(
-          refershTokenUrl,
-          qs.stringify({
-            refresh_token: refreshToken,
-            code_verifier: storage.getChallengeCodeVerifier(),
-            device_id: "web",
-          }),
-          { baseURL: RESTFUL_AUTH_URL }
-        )
-        .then((token) => {
-          storage.setRefreshToken(token?.data?.refresh_token);
-          storage.setAccessToken(token?.data?.access_token);
-          return new Promise((resolve, reject) => {
-            axios
-              .request({
-                ...config,
-                headers: {
-                  ...config?.headers,
-                  Authorization: `Bearer ${token?.data?.access_token}`,
-                },
-              })
-              .then((response) => {
-                resolve(response);
-              })
-              .catch((error) => {
-                reject(error);
-              });
-          });
-        })
-        .catch((error) => {
-          return Promise.reject(error);
-        });
-    }
+    // if (refreshToken) {
+    //   this.instance
+    //     .post(
+    //       refershTokenUrl,
+    //       qs.stringify({
+    //         refresh_token: refreshToken,
+    //         code_verifier: storage.getChallengeCodeVerifier(),
+    //         device_id: "web",
+    //       }),
+    //       { baseURL: RESTFUL_AUTH_URL }
+    //     )
+    //     .then((token) => {
+    //       storage.setRefreshToken(token?.data?.refresh_token);
+    //       storage.setAccessToken(token?.data?.access_token);
+    //       return new Promise((resolve, reject) => {
+    //         axios
+    //           .request({
+    //             ...config,
+    //             headers: {
+    //               ...config?.headers,
+    //               Authorization: `Bearer ${token?.data?.access_token}`,
+    //             },
+    //           })
+    //           .then((response) => {
+    //             resolve(response);
+    //           })
+    //           .catch((error) => {
+    //             reject(error);
+    //           });
+    //       });
+    //     })
+    //     .catch((error) => {
+    //       return Promise.reject(error);
+    //     });
+    // }
   };
 
   get = (

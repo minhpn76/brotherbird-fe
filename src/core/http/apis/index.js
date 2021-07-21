@@ -1,18 +1,5 @@
-import HttpClient from "../index";
+import HttpServices from "./httpServices";
 
-const RESTFUL_URL = process.env.REACT_APP_API_URL || "";
+const service = HttpServices.getInstance();
 
-export default class HttpServices extends HttpClient {
-    classInstance = null;
-    constructor() {
-        super(RESTFUL_URL);
-    }
-
-    static getInstance() {
-        if (!this.classInstance) {
-            this.classInstance = new HttpServices();
-        }
-
-        return this.classInstance;
-    }
-}
+export default service;
