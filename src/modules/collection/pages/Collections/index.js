@@ -1,5 +1,5 @@
-import React, { memo, } from "react";
-import { useSelector } from "react-redux";
+import React, { memo, useEffect, } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -7,14 +7,24 @@ import "./collection.css";
 import paths from "../../../../helper/pathRoutes";
 import { useHistory } from "react-router-dom";
 import {getDateFromDay} from '../../../../helper/times'
+import {RESTFUL_URL} from '../../../../helper/consts'
 import { covertPad2 } from "../../../../helper/utils";
+import { fetchProductsByCollection } from "../../redux";
 
 function Collections() {
   const history = useHistory();
-
+  const dispatch = useDispatch();
   const shopSelected = useSelector(
     state => state.home.data.shop
   );
+
+  const { products } = useSelector(
+    state => state.collection
+  );
+
+  useEffect(() => {
+    dispatch(fetchProductsByCollection(shopSelected.id))
+  }, [shopSelected.id])
 
   const redirectItem = (e, item, date) => {
     e.preventDefault();
@@ -35,7 +45,7 @@ function Collections() {
         </Row>
         <Row className="list-product">
           {
-            Array.from(Array(shopSelected.dayInMonth), (_, i) => i + 1).map((item, idx) => {
+            products.map((item, idx) => {
               return (
                 <Col md="3" className="prd" key={idx}>
                   <div
@@ -46,28 +56,13 @@ function Collections() {
                     year: shopSelected.year,
                   }))}>
                     <div className="img">
-                      <div className="top">
-                        <p>
-                          {getDateFromDay({
-                            day: item,
-                            month: shopSelected.month,
-                            year: shopSelected.year,
-                          }).month}
-                        </p>
-                        <p>
-                          {getDateFromDay({
-                            day: item,
-                            month: shopSelected.month,
-                            year: shopSelected.year,
-                          }).day}
-                        </p>
-                      </div>
+                      <img src={`${RESTFUL_URL}${item.productImage[0]['url']}`}/>
                       <div className="bottom">
-                        <p>{covertPad2(item)}</p>
+                        {/* <p>{covertPad2(item)}</p> */}
                       </div>
                     </div>
                     <div className="tile">
-                      <h6 className="name">Shushi 01</h6>
+                      <h6 className="name">{item.ProductTitle}</h6>
                       <h5 className="price">
                         <strong>$32.00</strong>
                       </h5>

@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useState } from 'react';
+import React, { memo, useEffect, useMemo, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -6,13 +6,14 @@ import Logo from "../../../../../assets/images/logo.png"
 import "./header.css";
 import pathRoutes from '../../../../../helper/pathRoutes'
 import Storage from '../../../../../helper/storage';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { BACKGROUD_CODE } from '../../../../../helper/consts'
 import { getNearYears } from '../../../../../helper/times';
 import { isEmpty } from 'lodash';
 import { shopStart } from '../../../../../modules/home/redux'
 import { unwrapResult } from '@reduxjs/toolkit';
+import { fetchCollections } from '../../../../../modules/collection/redux';
 
 function Header() {
   const location = useLocation();
@@ -24,7 +25,15 @@ function Header() {
     { label: 'SHOP', value: 'collections', link: pathRoutes.collection, sub: true },
     { label: 'FAQ', value: 'faq', link: pathRoutes.faq, sub: false }
   ]
+
+  const collections = useSelector(
+    state => state.collection.collections
+  );
   const [openSub, setOpenSub] = useState(false);
+
+  useEffect(() => {
+    dispatch(fetchCollections())
+  }, [])
 
   const handlePushLink = (e, link) => {
     e.preventDefault();
@@ -42,7 +51,7 @@ function Header() {
     const resps = await dispatch(shopStart(time))
     const status = unwrapResult(resps);
     if (!isEmpty(status)) {
-      history.push(`${pathRoutes.collection}/${status.path}`)
+      history.push(`${pathRoutes.collection}/${time.slugs}`)
     }
   }
 
@@ -87,13 +96,13 @@ function Header() {
                       menu.sub && openSub && (
                         <div className="sub-menu">
                           {
-                            getNearYears().map((time, idx) => {
+                            collections.map((time, idx) => {
                               return (
                                 <div 
                                   onClick={(e) => handleSelectMonth(e, time)} 
                                   key={idx}
                                 >
-                                  <span>{time.label}</span>
+                                  <span>{time.collectionName?`${time.collectionName.charAt(0)}${time.collectionName.slice(1).toLowerCase()}`:''}</span>
                                 </div>
                               )
                             })

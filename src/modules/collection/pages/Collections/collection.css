@@ -16,10 +16,14 @@
 }
 .collections .img {
     width: 100%;
-    height: 250px;
+    height: 350px;
     padding: 15px;
     background-color: #e4e8eb;
     position: relative;
+}
+.collections .img img {
+    height: 100%;
+    width: 100%;
 }
 .collections .img .top {
     border-bottom: 1px solid #bdc1c4;

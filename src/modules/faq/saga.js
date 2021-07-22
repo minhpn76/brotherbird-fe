@@ -15,13 +15,17 @@ import {
   fetchContentFAQFailed
 } from './redux'
 import httpServices from '../../core/http/apis'
+import { showLoading, hideLoading } from 'react-redux-loading-bar';
 
 function* fetchContentFAQSaga(action) {
   try {
+    yield put(showLoading())
     const resps = yield call(fetchContentFAQReq)
     yield put({ type: fetchContentFAQSuccess, payload: resps });
   } catch (error) {
     yield put({ type: fetchContentFAQFailed });
+  } finally {
+    yield put(showLoading())
   }
 }
 

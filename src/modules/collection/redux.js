@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { ReduxState } from "../../redux/types";
 
 const initialState = {
-    collections: {},
+    collections: [],
+    products: [],
     status: ReduxState.INIT
 }
 
@@ -18,9 +19,23 @@ const collectionSlice = createSlice({
         action
       ) => {
         state.status = ReduxState.SUCCESS;
-        state.faq = action.payload
+        state.collections = action.payload
       },
       fetchCollectionsFailed: (state, action) => {
+        state = { ...initialState, status: ReduxState.ERROR };
+      },
+      //Products by collection
+      fetchProductsByCollection: (state, action) => {
+        state.status = ReduxState.LOADING;
+      },
+      fetchProductsByCollectionSuccess: (
+        state,
+        action
+      ) => {
+        state.status = ReduxState.SUCCESS;
+        state.products = action.payload
+      },
+      fetchProductsByCollectionFailed: (state, action) => {
         state = { ...initialState, status: ReduxState.ERROR };
       },
     },
@@ -29,7 +44,11 @@ const collectionSlice = createSlice({
   export const {
     fetchCollections,
     fetchCollectionsSuccess,
-    fetchCollectionsFailed
+    fetchCollectionsFailed,
+    fetchProductsByCollection,
+    fetchProductsByCollectionSuccess,
+    fetchProductsByCollectionFailed
   } = collectionSlice.actions;
+  
   export const selectorCollection = (state) => state.collection;
   export default collectionSlice.reducer;
