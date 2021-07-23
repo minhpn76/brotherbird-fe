@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useMemo, useState } from "react";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -13,73 +13,89 @@ import pathRoutes from '../../../../helper/pathRoutes'
 import './collection-item.css'
 import {caculatedItem} from '../../../../helper/utils'
 import Storage from '../../../../helper/storage';
+import { cloneDeep, isEmpty } from "lodash";
+import {RESTFUL_URL} from '../../../../helper/consts'
 
-let kindProduct = [
-  { id: 1, name: 'ICED COLD BREW (WHITE)', price: 7, quanlity: 1, image: IconShuShi, selected: false},
-  { id: 2, name: 'CED COLD BREW (BLACK)', price: 7, quanlity: 1, image: IconShuShi, selected: false},
-  { id: 3, name: 'ICED MATCHA COLD BREW', price: 7, quanlity: 1, image: IconShuShi, selected: false},
-]
+let kindProduct = []
 
 function CollectionItem(props) {
   const history = useHistory();
-  
+  const params = useParams();
+
   const shopSelected = useSelector(
     state => state.home.data.shop
   );
-  
+
+  const {products, product} = useSelector(
+    state => state.collection
+  )
+
   const handleBackShop = (e) => {
     e.preventDefault();
-    history.push(`${pathRoutes.collection}/${shopSelected.path}`)
+    history.push(`${pathRoutes.collection}/${shopSelected.slugs}`)
   }
 
-  const [baseProduct, setBaseProduct] = useState({
-    id: 0,
-    quanlity: null
-  })
+  
+  const [kindProductClone, setKindProductClone] = useState(product['ProductItems'].map(p => {
+    return {
+      ...p,
+      quanlity: 1,
+      selected: false
+    }
+  }))
+  console.log('kindProductClone', kindProductClone);
   
   const handleChooseKind = ({type, item, e}) => {
-    let newArray = caculatedItem({kindProduct, payload: {type, item, e}})
-    kindProduct = newArray
+    let newArray = caculatedItem({kindProduct: kindProductClone, payload: {type, item, e}})
+    setKindProductClone(newArray)
+    console.log('newArray', newArray);
   }
 
   const handleSoldOut = (e) => {
     e.preventDefault();
+    console.log('kindProduct', kindProduct);
     Storage.set('cart', JSON.stringify(kindProduct.filter(i => i.selected)))
-    history.push(pathRoutes.cart)
+    // history.push(pathRoutes.cart)
   }
 
-  
-  const params = useParams();
   return (
     <div className="collection-item">
-      <Container style={{ padding: "50px 0" }}>
-        <Row>
-          <Col md="6" style={{ textAlign: "center" }}>
-            <img src={IconShuShi} style={{width: '100%'}} alt="product"/>
-          </Col>
-          <Col md="6">
-            <div className="path">
-              <p className="name">*{params['item'].toUpperCase()}</p>
-              <span className="price">$32.00</span>
-              <span className="status-item">SOLD OUT</span>
-            </div>
-            <Kind 
-              baseProduct={baseProduct}
-              kindProduct={kindProduct}
-              handleChooseKind={handleChooseKind}
-              handleSoldOut={handleSoldOut}
-            />
-            <Condition/>
-          </Col>
-          <Col md="12" style={{textAlign: 'center', marginTop: '100px'}}>
-            <Button variant="outline-dark"
-              onClick={(e) => handleBackShop(e)}
-            >
-              {`BACK TO ${shopSelected.month} ${shopSelected.year}`.toUpperCase()}
-            </Button>
-          </Col>
-        </Row>
-      </Container>
+      {
+        !isEmpty(product) && (
+          <Container style={{ padding: "50px 0" }}>
+            <Row>
+              <Col md="6" style={{ textAlign: "center" }}>
+                <img style={{width: '100%'}} src={`${RESTFUL_URL}${product.productImage[0]['url']}`} alt={product.ProductTitle}/>
+              </Col>
+              <Col md="6">
+                <div className="path">
+                  <p className="name">{product.ProductTitle}</p>
+                  <span className="price">$32.00</span>
+                  <span className="status-item">SOLD OUT</span>
+                </div>
+                <Kind 
+                  quanlityItemBase={product.quanlity}
+                  kindProduct={product.ProductItems}
+                  handleChooseKind={handleChooseKind}
+                  handleSoldOut={handleSoldOut}
+                  
+                />
+                <Condition
+                  description={product.Description}
+                />
+              </Col>
+              <Col md="12" style={{textAlign: 'center', marginTop: '100px'}}>
+                <Button variant="outline-dark"
+                  onClick={(e) => handleBackShop(e)}
+                >
+                  {`BACK TO ${shopSelected.collectionName}`}
+                </Button>
+              </Col>
+            </Row>
+          </Container>
+        )
+      }
+      
     </div>
   );
 }

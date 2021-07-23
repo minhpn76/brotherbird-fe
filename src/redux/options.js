@@ -8,6 +8,9 @@ export const persistConfig = {
   whitelist: [
     AppReducerType.LANGUAGE,
     AppReducerType.HOME,
+    AppReducerType.FAQ,
+    AppReducerType.COLLECTION,
+    AppReducerType.LOADING_BAR,
   ],
 //   transforms: [Transform],
 };

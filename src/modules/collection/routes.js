@@ -11,7 +11,7 @@ const routes = [
     layout: MainLayout,
   },
   {
-    path: `${paths.collection}${paths.product}/:item`,
+    path: `${paths.collection}/:shop${paths.product}/:item`,
     page: CollectionItem,
     exact: true,
     layout: MainLayout,

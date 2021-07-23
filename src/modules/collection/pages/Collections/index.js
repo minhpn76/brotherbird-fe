@@ -6,10 +6,10 @@ import Col from "react-bootstrap/Col";
 import "./collection.css";
 import paths from "../../../../helper/pathRoutes";
 import { useHistory } from "react-router-dom";
-import {getDateFromDay} from '../../../../helper/times'
 import {RESTFUL_URL} from '../../../../helper/consts'
-import { covertPad2 } from "../../../../helper/utils";
-import { fetchProductsByCollection } from "../../redux";
+import { unwrapResult } from '@reduxjs/toolkit';
+import { fetchProduct, fetchProductsByCollection } from "../../redux";
+import {isEmpty} from 'lodash'
 
 function Collections() {
   const history = useHistory();
@@ -26,10 +26,13 @@ function Collections() {
     dispatch(fetchProductsByCollection(shopSelected.id))
   }, [shopSelected.id])
 
-  const redirectItem = (e, item, date) => {
+  const redirectItem = async (e, item) => {
     e.preventDefault();
-    const payload = `${covertPad2(item)}${(shopSelected.month).toLowerCase()}`
-    history.push(`${paths.collection}${paths.product}/${payload}`)
+    const resps = await dispatch(fetchProduct(item))
+    const status = unwrapResult(resps);
+    if (!isEmpty(status)) {
+      history.push(`${paths.collection}/${shopSelected.slugs}${paths.product}/${item.id}`)
+    }
   }
 
   return (
@@ -50,13 +53,9 @@ function Collections() {
                 <Col md="3" className="prd" key={idx}>
                   <div
                     className="section"
-                    onClick={(e) => redirectItem(e, item, getDateFromDay({
-                    day: item,
-                    month: shopSelected.month,
-                    year: shopSelected.year,
-                  }))}>
+                    onClick={(e) => redirectItem(e, item)}>
                     <div className="img">
-                      <img src={`${RESTFUL_URL}${item.productImage[0]['url']}`}/>
+                      <img src={`${RESTFUL_URL}${item.productImage[0]['url']}`} alt={item.ProductTitle}/>
                       <div className="bottom">
                         {/* <p>{covertPad2(item)}</p> */}
                       </div>

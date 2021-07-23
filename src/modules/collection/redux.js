@@ -4,6 +4,7 @@ import { ReduxState } from "../../redux/types";
 const initialState = {
     collections: [],
     products: [],
+    product: {},
     status: ReduxState.INIT
 }
 
@@ -12,7 +13,7 @@ const collectionSlice = createSlice({
     initialState,
     reducers: {
       fetchCollections: (state, action) => {
-        state.status = ReduxState.LOADING;
+        state = { ...initialState, status: ReduxState.LOADING };
       },
       fetchCollectionsSuccess: (
         state,
@@ -26,7 +27,7 @@ const collectionSlice = createSlice({
       },
       //Products by collection
       fetchProductsByCollection: (state, action) => {
-        state.status = ReduxState.LOADING;
+        state = { ...initialState, status: ReduxState.LOADING };
       },
       fetchProductsByCollectionSuccess: (
         state,
@@ -38,6 +39,20 @@ const collectionSlice = createSlice({
       fetchProductsByCollectionFailed: (state, action) => {
         state = { ...initialState, status: ReduxState.ERROR };
       },
+      //Product Item
+      fetchProduct: (state, action) => {
+        state = { ...initialState, status: ReduxState.LOADING };
+      },
+      fetchProductSuccess: (
+        state,
+        action
+      ) => {
+        state.status = ReduxState.SUCCESS;
+        state.product = action.payload
+      },
+      fetchProductFailed: (state, action) => {
+        state = { ...initialState, status: ReduxState.ERROR };
+      },
     },
   });
 
@@ -47,7 +62,10 @@ const collectionSlice = createSlice({
     fetchCollectionsFailed,
     fetchProductsByCollection,
     fetchProductsByCollectionSuccess,
-    fetchProductsByCollectionFailed
+    fetchProductsByCollectionFailed,
+    fetchProduct,
+    fetchProductSuccess,
+    fetchProductFailed,
   } = collectionSlice.actions;
   
   export const selectorCollection = (state) => state.collection;

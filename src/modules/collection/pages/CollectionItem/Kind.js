@@ -1,11 +1,11 @@
 import React, { memo, useState, useImperativeHandle, forwardRef, useRef } from "react";
 import Button from "react-bootstrap/Button";
-import IconShuShi from '../../../../assets/images/shushi.png'
+import {RESTFUL_URL} from '../../../../helper/consts'
 import {typeActionKind} from '../../../../helper/utils'
 
 function Kind(props, ref) {
   const {
-    baseProduct, kindProduct, 
+    quanlityItemBase, kindProduct, 
     handleChooseKind,
     handleSoldOut
   } = props;
@@ -16,7 +16,7 @@ function Kind(props, ref) {
         <div className="quanlity">
           <span>Quanlity</span>
           <input min="1" max="100" type="number" defaultValue={1}
-          value={baseProduct.quanlity}/>
+          value={quanlityItemBase || 1}/>
         </div>
         <div className="list-kind">
           {
@@ -27,10 +27,10 @@ function Kind(props, ref) {
                     onChange={(e) => {handleChooseKind({type: typeActionKind.SELECT,item: p, e})}}
                   />
                   <div className="inform">
-                    <img src={p.image} alt="item" />
+                    <img src={`${RESTFUL_URL}${p.ProductItemImage[0]['url']}`} alt={p.ProductItemTItle} />
                     <div className="accessy-item">
-                      <span>{p.name}</span>
-                      <span className="price">${p.price.toFixed(2)}</span>
+                      <span>{p.ProductItemTItle}</span>
+                      <span className="price">${p.ProductItemPrice.toFixed(2)}</span>
                       <input 
                         onChange={(e) => {handleChooseKind({type: typeActionKind.QUANTITY,item: p, e})}}
                         min="1" max="100" type="number" defaultValue={1} 
