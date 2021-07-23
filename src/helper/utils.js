@@ -1,3 +1,5 @@
+import { cloneDeep } from "lodash";
+
 export const covertPad2 = (number) => {
     return (number < 10 ? '0' : '') + number
 }
@@ -7,21 +9,15 @@ export const typeActionKind = {
     QUANTITY: 'QUANTITY',
 }
 
-export const caculatedItem = ({kindProduct, payload}) => {
+export const caculatedItem = ({ payload}) => {
     const {item, type, e} = payload;
-    let newArray = []
-    console.log('item', item);
-    console.log('kindProduct', kindProduct);
-    kindProduct.forEach(kind => {
-        if (kind.id !== item.id) {
-            newArray.push(kind)
-        } else {
-            newArray.push({
-                ...kind,
-                quanlity: type === typeActionKind.QUANTITY ? + e.target.value : 1,
-                selected: type === typeActionKind.SELECT ? e.target.checked : false
-            })
-        }
-    })
-    return newArray
+    let objectNew = cloneDeep(item)
+    if (type === typeActionKind.QUANTITY) {
+        objectNew['quanlity'] = + e.target.value
+    }
+    if (type === typeActionKind.SELECT) {
+        objectNew['selected'] = e.target.checked
+    }
+
+    return objectNew
 }

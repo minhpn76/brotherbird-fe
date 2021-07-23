@@ -4,28 +4,24 @@ import Col from "react-bootstrap/Col";
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
 import {caculatedItem, typeActionKind} from '../../../../helper/utils'
+import {RESTFUL_URL} from '../../../../helper/consts'
 import Storage from '../../../../helper/storage'
+import { useDispatch, useSelector } from "react-redux";
 
+function DetailCart() {
 
-function DetailCart({cart, setCart}) {
+  const cart = useSelector(state => state.collection.cart || [])
 
   const handleChooseKind = ({type, item, e}) => {
-    let newArray = caculatedItem({kindProduct: cart, payload: {type, item, e}})
-    setCart(newArray)
-    Storage.set('cart', JSON.stringify(newArray))
-    window.location.reload()
+  
   }
 
   const removeItemCart = (e, item) => {
-    e.preventDefault();
-    const items = cart.filter(c => c.id !== item.id);
-    setCart(items)
-    Storage.set('cart', JSON.stringify(items))
-    window.location.reload()
+    e.preventDefault();   
   }
 
   const totalPriceCart = useMemo(() => {
-    return cart.reduce((c1, c2) => c1.quanlity*(c1.price).toFixed(2) + c2.quanlity*(c2.price).toFixed(2))
+    return cart.reduce((total, c2) => total.toFixed(2) + c2?c2.quanlity*(c2.ProductItemPrice).toFixed(2):0, 0)
   }, [cart])
 
   return (
@@ -54,9 +50,9 @@ function DetailCart({cart, setCart}) {
                     <tr key={idx}>
                       <td colspan="7" >
                         <div className="detail-item">
-                          <img width="95" height="95" alt={c.name} src={c.image} />
+                          <img width="95" height="95" src={`${RESTFUL_URL}${c.ProductItemImage[0]['url']}`} alt={c.ProductItemTItle} />
                           <div className="view-info">
-                            <span>{c.name}</span>
+                            <span>{c.ProductItemTItle}</span>
                             <span><strong>Accessory:&nbsp;&nbsp;</strong>Yes</span>
                             <span onClick={(e) => removeItemCart(e, c)}>Remove</span>
                           </div>
@@ -72,7 +68,7 @@ function DetailCart({cart, setCart}) {
                       </td>
                       <td>
 
-                        <p style={{ fontSize: '18px' }}><strong>${c.price.toFixed(2)}</strong></p>
+                        <p style={{ fontSize: '18px' }}><strong>${c.ProductItemPrice.toFixed(2)}</strong></p>
                       </td>
                     </tr>
                   )

@@ -2,14 +2,26 @@ import React, { memo, useState, useImperativeHandle, forwardRef, useRef } from "
 import Button from "react-bootstrap/Button";
 import {RESTFUL_URL} from '../../../../helper/consts'
 import {typeActionKind} from '../../../../helper/utils'
+import {caculatedItem} from '../../../../helper/utils'
+import { fetchCart } from "../../redux"
+import { useDispatch, useSelector } from "react-redux"
+import { cloneDeep } from "lodash";
 
 function Kind(props, ref) {
+  const dispatch = useDispatch();
+
   const {
     quanlityItemBase, kindProduct, 
-    handleChooseKind,
-    handleSoldOut
+    handleSoldOut, cart
   } = props;
 
+  const handleChooseKind = ({type, item, e}) => {
+    dispatch(fetchCart({
+      type,
+      product: item,
+      valued: e
+    }))
+  }
   return (
     <>
       <div className="kind">

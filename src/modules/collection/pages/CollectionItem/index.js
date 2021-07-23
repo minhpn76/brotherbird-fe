@@ -4,7 +4,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from 'react-bootstrap/Button'
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import IconShuShi from '../../../../assets/images/shushi.png'
 import Condition from './Condition';
@@ -15,12 +15,14 @@ import {caculatedItem} from '../../../../helper/utils'
 import Storage from '../../../../helper/storage';
 import { cloneDeep, isEmpty } from "lodash";
 import {RESTFUL_URL} from '../../../../helper/consts'
+import { fetchCart } from "../../redux";
 
 let kindProduct = []
 
 function CollectionItem(props) {
   const history = useHistory();
   const params = useParams();
+  const dispatch = useDispatch();
 
   const shopSelected = useSelector(
     state => state.home.data.shop
@@ -30,32 +32,16 @@ function CollectionItem(props) {
     state => state.collection
   )
 
+  const cart = useSelector(state => state.collection.cart || [])
+
   const handleBackShop = (e) => {
     e.preventDefault();
     history.push(`${pathRoutes.collection}/${shopSelected.slugs}`)
   }
 
-  
-  const [kindProductClone, setKindProductClone] = useState(product['ProductItems'].map(p => {
-    return {
-      ...p,
-      quanlity: 1,
-      selected: false
-    }
-  }))
-  console.log('kindProductClone', kindProductClone);
-  
-  const handleChooseKind = ({type, item, e}) => {
-    let newArray = caculatedItem({kindProduct: kindProductClone, payload: {type, item, e}})
-    setKindProductClone(newArray)
-    console.log('newArray', newArray);
-  }
-
   const handleSoldOut = (e) => {
     e.preventDefault();
-    console.log('kindProduct', kindProduct);
-    Storage.set('cart', JSON.stringify(kindProduct.filter(i => i.selected)))
-    // history.push(pathRoutes.cart)
+    history.push(pathRoutes.cart)
   }
 
   return (
@@ -76,8 +62,8 @@ function CollectionItem(props) {
                 <Kind 
                   quanlityItemBase={product.quanlity}
                   kindProduct={product.ProductItems}
-                  handleChooseKind={handleChooseKind}
                   handleSoldOut={handleSoldOut}
+                  cart={cart}
                   
                 />
                 <Condition

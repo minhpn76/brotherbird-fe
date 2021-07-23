@@ -6,9 +6,11 @@ import EmptyCart from './EmptyCart';
 import DetailCart from './DetailCart';
 import './cart.css';
 import { isEmpty } from "lodash";
+import { useSelector } from "react-redux";
 
 function Cart() {
-  const [cart, setCart] = useState(Storage.get('cart') ? JSON.parse(Storage.get('cart')) : [])
+  const cart = useSelector(state => state.collection.cart || [])
+
 
   return (
     <div className="cart-section">
@@ -19,7 +21,6 @@ function Cart() {
           ) : (
             <DetailCart 
               cart={cart}
-              setCart={setCart}
             />
           )
         }

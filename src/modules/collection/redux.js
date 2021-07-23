@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { cloneDeep, isEmpty } from "lodash";
 import { ReduxState } from "../../redux/types";
 
 const initialState = {
     collections: [],
     products: [],
     product: {},
+    cart: [],
     status: ReduxState.INIT
 }
 
@@ -13,45 +15,102 @@ const collectionSlice = createSlice({
     initialState,
     reducers: {
       fetchCollections: (state, action) => {
-        state = { ...initialState, status: ReduxState.LOADING };
+        return {
+          ...state,
+          collections: [],
+          status: ReduxState.LOADING
+        }
       },
       fetchCollectionsSuccess: (
         state,
         action
       ) => {
-        state.status = ReduxState.SUCCESS;
-        state.collections = action.payload
+        return {
+          ...state,
+          collections: action.payload
+        }
       },
       fetchCollectionsFailed: (state, action) => {
-        state = { ...initialState, status: ReduxState.ERROR };
+        return { 
+          ...state, 
+          collections: [],
+          status: ReduxState.ERROR 
+        };
       },
       //Products by collection
       fetchProductsByCollection: (state, action) => {
-        state = { ...initialState, status: ReduxState.LOADING };
+        return {
+          ...state,
+          products: [],
+          status: ReduxState.LOADING
+        }
       },
       fetchProductsByCollectionSuccess: (
         state,
         action
       ) => {
-        state.status = ReduxState.SUCCESS;
-        state.products = action.payload
+        return {
+          ...state,
+          products: action.payload,
+          status: ReduxState.SUCCESS
+        }
       },
       fetchProductsByCollectionFailed: (state, action) => {
-        state = { ...initialState, status: ReduxState.ERROR };
+        return {
+          ...state,
+          products: [],
+          status: ReduxState.ERROR
+        }
       },
       //Product Item
       fetchProduct: (state, action) => {
-        state = { ...initialState, status: ReduxState.LOADING };
+        return {
+          ...state,
+          product: [],
+          status: ReduxState.LOADING
+        }
       },
       fetchProductSuccess: (
         state,
         action
       ) => {
-        state.status = ReduxState.SUCCESS;
-        state.product = action.payload
+        return {
+          ...state,
+          status: ReduxState.SUCCESS,
+          product: action.payload
+        }
       },
       fetchProductFailed: (state, action) => {
-        state = { ...initialState, status: ReduxState.ERROR };
+        return {
+          ...state,
+          product: [],
+          status: ReduxState.ERROR
+        }
+      },
+      //cart
+      fetchCart: (state, action) => {
+        return {
+          ...state,
+          status: ReduxState.LOADING
+        }
+      },
+      fetchCartSuccess: (
+        state,
+        action
+      ) => {
+        console.log(4444, action.payload);
+        return {
+          ...state,
+          cart: action.payload,
+          status: ReduxState.SUCCESS
+        }
+      },
+      fetchCartFailed: (state, action) => {
+        return {
+          ...state,
+          cart: [],
+          status: ReduxState.ERROR
+        }
       },
     },
   });
@@ -66,6 +125,9 @@ const collectionSlice = createSlice({
     fetchProduct,
     fetchProductSuccess,
     fetchProductFailed,
+    fetchCart,
+    fetchCartSuccess,
+    fetchCartFailed
   } = collectionSlice.actions;
   
   export const selectorCollection = (state) => state.collection;

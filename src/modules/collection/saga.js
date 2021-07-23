@@ -1,5 +1,5 @@
 import Storage from "../../helper/storage";
-import { cloneDeep } from "lodash";
+import { cloneDeep, isEmpty, omit } from "lodash";
 import {
   all,
   call,
@@ -18,10 +18,14 @@ import {
   fetchProductsByCollectionFailed,
   fetchProduct,
   fetchProductSuccess,
-  fetchProductFailed
+  fetchProductFailed,
+  fetchCart,
+  fetchCartSuccess,
+  fetchCartFailed
 } from './redux'
 import { showLoading, hideLoading } from 'react-redux-loading-bar';
 import httpServices from '../../core/http/apis'
+import { typeActionKind } from "../../helper/utils";
 
 function* fetchCollectionsSaga(action) {
   try {
@@ -70,6 +74,55 @@ function* fetchProductSaga(action) {
     yield put(hideLoading());
   }
 }
+
+function* fetchCartSaga(action) {
+  try {
+    yield put(showLoading());
+    const { cart } = yield select(state => state.collection)
+    let cloneCart = cloneDeep(cart)
+    const {type, product, valued} = action.payload
+    let cartItem = cloneDeep(product)
+    if (isEmpty(cloneCart)) {
+      if(type === typeActionKind.SELECT) {
+        cartItem.selected = valued.target.checked
+      }
+      if (type === typeActionKind.QUANTITY) {
+        cartItem.quanlity = + valued.target.value
+      }
+      cloneCart.push(cartItem)
+    } else {
+      const isExist = cloneCart.find(i => i.id === cartItem.id)
+      if (!isEmpty(isExist)) {
+        let newData = cloneCart.filter(i => i.id !== cartItem.id)
+        if(type === typeActionKind.SELECT) {
+          cartItem.selected = valued.target.checked
+          cartItem.quanlity = isExist.quanlity
+        }
+        if (type === typeActionKind.QUANTITY) {
+          cartItem.selected = isExist.selected
+          cartItem.quanlity = + valued.target.value
+        }
+        newData.push(cartItem)
+        cloneCart = newData
+      } else {
+        if(type === typeActionKind.SELECT) {
+          cartItem.selected = valued.target.checked
+        }
+        if (type === typeActionKind.QUANTITY) {
+          cartItem.quanlity = + valued.target.value
+        }
+        cloneCart.push(cartItem)
+      }
+    }
+    yield put({ type: fetchCartSuccess, payload: cloneCart });
+  } catch (error) {
+    console.log('error', error);
+    yield put({ type: fetchCartFailed });
+  } finally {
+    yield put(hideLoading());
+  }
+}
+
 function* watchCollections() {
   yield takeLatest(fetchCollections, fetchCollectionsSaga);
 }
@@ -82,10 +135,15 @@ function* watchProduct() {
   yield takeLatest(fetchProduct, fetchProductSaga);
 }
 
-export default function* faqSaga() {
+function* watchCart() {
+  yield takeLatest(fetchCart, fetchCartSaga);
+}
+
+export default function* collectionSaga() {
   yield all([
     watchCollections(),
     watchProductsByCollection(),
-    watchProduct()
+    watchProduct(),
+    watchCart()
   ]);
 }

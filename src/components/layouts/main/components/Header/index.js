@@ -26,8 +26,8 @@ function Header() {
     { label: 'FAQ', value: 'faq', link: pathRoutes.faq, sub: false }
   ]
 
-  const collections = useSelector(
-    state => state.collection.collections
+  const {collections, cart} = useSelector(
+    state => state.collection
   );
   const [openSub, setOpenSub] = useState(false);
 
@@ -61,12 +61,12 @@ function Header() {
   }
 
   const totalCart = useMemo(() => {
-    const cart = Storage.get('cart') ? JSON.parse(Storage.get('cart')) : [];
-    if (isEmpty(cart)) {
+    let cloneCart = cart || []
+    if (isEmpty(cloneCart)) {
       return 0
     }
     return cart.map(i => i.quanlity).reduce((a, b) => a + b) 
-  }, [Storage.get('cart') ? JSON.parse(Storage.get('cart')) : []])
+  }, [cart])
 
   return (
     <section className="header"
