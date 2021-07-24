@@ -1,14 +1,9 @@
-import Storage from "../../helper/storage";
-import { cloneDeep } from "lodash";
 import {
   all,
   call,
   put,
-  select,
-  takeEvery,
   takeLatest,
 } from "redux-saga/effects";
-import { RootState } from "../../redux/store";
 import {
   fetchContentFAQ,
   fetchContentFAQSuccess,
@@ -25,7 +20,7 @@ function* fetchContentFAQSaga(action) {
   } catch (error) {
     yield put({ type: fetchContentFAQFailed });
   } finally {
-    yield put(showLoading())
+    yield put(hideLoading())
   }
 }
 

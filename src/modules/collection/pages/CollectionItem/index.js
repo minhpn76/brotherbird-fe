@@ -15,7 +15,8 @@ import {caculatedItem} from '../../../../helper/utils'
 import Storage from '../../../../helper/storage';
 import { cloneDeep, isEmpty } from "lodash";
 import {RESTFUL_URL} from '../../../../helper/consts'
-import { fetchCart } from "../../redux";
+import { fetchCheckout } from "../../redux";
+import { unwrapResult } from '@reduxjs/toolkit';
 
 let kindProduct = []
 
@@ -39,9 +40,13 @@ function CollectionItem(props) {
     history.push(`${pathRoutes.collection}/${shopSelected.slugs}`)
   }
 
-  const handleSoldOut = (e) => {
+  const handleSoldOut = async (e) => {
     e.preventDefault();
-    history.push(pathRoutes.cart)
+    const resps = await dispatch(fetchCheckout(true))
+    const status = unwrapResult(resps);
+    if (status) {
+      history.push(pathRoutes.cart)
+    }
   }
 
   return (

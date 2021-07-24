@@ -7,6 +7,7 @@ const initialState = {
     products: [],
     product: {},
     cart: [],
+    tempCart: [],
     status: ReduxState.INIT
 }
 
@@ -67,7 +68,8 @@ const collectionSlice = createSlice({
         return {
           ...state,
           product: [],
-          status: ReduxState.LOADING
+          status: ReduxState.LOADING,
+          tempCart: []
         }
       },
       fetchProductSuccess: (
@@ -98,10 +100,17 @@ const collectionSlice = createSlice({
         state,
         action
       ) => {
-        console.log(4444, action.payload);
+        const {temp, cloneCart} = action.payload
+        if (temp) {
+          return {
+            ...state,
+            tempCart: cloneCart,
+            status: ReduxState.SUCCESS
+          }
+        }
         return {
           ...state,
-          cart: action.payload,
+          cart: cloneCart,
           status: ReduxState.SUCCESS
         }
       },
@@ -109,6 +118,30 @@ const collectionSlice = createSlice({
         return {
           ...state,
           cart: [],
+          status: ReduxState.ERROR
+        }
+      },
+      //checkout
+      fetchCheckout: (state, action) => {
+        return {
+          ...state,
+          status: ReduxState.LOADING
+        }
+      },
+      fetchCheckoutSuccess: (
+        state,
+        action
+      ) => {
+        return {
+          ...state,
+          checkout: action.payload,
+          status: ReduxState.SUCCESS
+        }
+      },
+      fetchCheckoutFailed: (state, action) => {
+        return {
+          ...state,
+          checkout: false,
           status: ReduxState.ERROR
         }
       },
@@ -127,7 +160,10 @@ const collectionSlice = createSlice({
     fetchProductFailed,
     fetchCart,
     fetchCartSuccess,
-    fetchCartFailed
+    fetchCartFailed,
+    fetchCheckout,
+    fetchCheckoutSuccess,
+    fetchCheckoutFailed
   } = collectionSlice.actions;
   
   export const selectorCollection = (state) => state.collection;

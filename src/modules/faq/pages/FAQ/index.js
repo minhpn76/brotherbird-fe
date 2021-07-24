@@ -11,7 +11,7 @@ function FAQ() {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(fetchContentFAQ())
-  }, [])
+  }, [dispatch])
   const faqContent = useSelector(
     state => state.faq.faq
   );

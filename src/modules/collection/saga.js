@@ -21,7 +21,10 @@ import {
   fetchProductFailed,
   fetchCart,
   fetchCartSuccess,
-  fetchCartFailed
+  fetchCartFailed,
+  fetchCheckout,
+  fetchCheckoutSuccess,
+  fetchCheckoutFailed
 } from './redux'
 import { showLoading, hideLoading } from 'react-redux-loading-bar';
 import httpServices from '../../core/http/apis'
@@ -80,31 +83,18 @@ function* fetchCartSaga(action) {
     yield put(showLoading());
     const { cart } = yield select(state => state.collection)
     let cloneCart = cloneDeep(cart)
-    const {type, product, valued} = action.payload
-    let cartItem = cloneDeep(product)
-    if (isEmpty(cloneCart)) {
-      if(type === typeActionKind.SELECT) {
-        cartItem.selected = valued.target.checked
-      }
-      if (type === typeActionKind.QUANTITY) {
-        cartItem.quanlity = + valued.target.value
-      }
-      cloneCart.push(cartItem)
+    const {type, product, valued, deleted, temp} = action.payload
+    let cartItem = {
+      ...cloneDeep(product),
+      quanlity: 1,
+      selected: false
+    }
+    if (deleted) {
+      let newData = cloneCart.filter(i => i.id !== cartItem.id)
+      cloneCart = newData
     } else {
-      const isExist = cloneCart.find(i => i.id === cartItem.id)
-      if (!isEmpty(isExist)) {
-        let newData = cloneCart.filter(i => i.id !== cartItem.id)
-        if(type === typeActionKind.SELECT) {
-          cartItem.selected = valued.target.checked
-          cartItem.quanlity = isExist.quanlity
-        }
-        if (type === typeActionKind.QUANTITY) {
-          cartItem.selected = isExist.selected
-          cartItem.quanlity = + valued.target.value
-        }
-        newData.push(cartItem)
-        cloneCart = newData
-      } else {
+      console.log('cartItem', cartItem);
+      if (isEmpty(cloneCart)) {
         if(type === typeActionKind.SELECT) {
           cartItem.selected = valued.target.checked
         }
@@ -112,12 +102,55 @@ function* fetchCartSaga(action) {
           cartItem.quanlity = + valued.target.value
         }
         cloneCart.push(cartItem)
+      } else {
+        const isExist = cloneCart.find(i => i.id === cartItem.id)
+        if (!isEmpty(isExist)) {
+          let newData = cloneCart.filter(i => i.id !== cartItem.id)
+          if(type === typeActionKind.SELECT) {
+            cartItem.selected = valued.target.checked
+            cartItem.quanlity = isExist.quanlity
+          }
+          if (type === typeActionKind.QUANTITY) {
+            cartItem.selected = isExist.selected
+            cartItem.quanlity = + valued.target.value
+          }
+          newData.push(cartItem)
+          cloneCart = newData
+        } else {
+          if(type === typeActionKind.SELECT) {
+            cartItem.selected = valued.target.checked
+          }
+          if (type === typeActionKind.QUANTITY) {
+            cartItem.quanlity = + valued.target.value
+          }
+          cloneCart.push(cartItem)
+        }
       }
     }
-    yield put({ type: fetchCartSuccess, payload: cloneCart });
+    yield put({ type: fetchCartSuccess, payload: {
+      temp,
+      cloneCart
+    } });
   } catch (error) {
     console.log('error', error);
     yield put({ type: fetchCartFailed });
+  } finally {
+    yield put(hideLoading());
+  }
+}
+
+function* fetchCheckoutSaga(action) {
+  try {
+    yield put(showLoading());
+    const {  tempCart } = yield select(state => state.collection)
+    let cloneTempCart = cloneDeep(tempCart)
+    console.log('33', cloneTempCart);
+    yield put({ type: fetchCartSuccess, payload: {
+      temp: false,
+      cloneCart: cloneTempCart
+    } });
+  } catch (error) {
+    yield put({ type: fetchCheckoutFailed });
   } finally {
     yield put(hideLoading());
   }
@@ -139,11 +172,16 @@ function* watchCart() {
   yield takeLatest(fetchCart, fetchCartSaga);
 }
 
+function* watchCheckout() {
+  yield takeLatest(fetchCheckout, fetchCheckoutSaga);
+}
+
 export default function* collectionSaga() {
   yield all([
     watchCollections(),
     watchProductsByCollection(),
     watchProduct(),
-    watchCart()
+    watchCart(),
+    watchCheckout()
   ]);
 }

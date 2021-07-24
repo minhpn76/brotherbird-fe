@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import {RESTFUL_URL} from '../../../../helper/consts'
 import {typeActionKind} from '../../../../helper/utils'
 import {caculatedItem} from '../../../../helper/utils'
-import { fetchCart } from "../../redux"
+import { fetchCart, fetchCheckout } from "../../redux"
 import { useDispatch, useSelector } from "react-redux"
 import { cloneDeep } from "lodash";
 
@@ -19,7 +19,9 @@ function Kind(props, ref) {
     dispatch(fetchCart({
       type,
       product: item,
-      valued: e
+      valued: e,
+      deleted: false,
+      temp: true  
     }))
   }
   return (
@@ -56,7 +58,7 @@ function Kind(props, ref) {
         </div>
       </div>
       <div className="checkout">
-        <Button variant="dark" onClick={handleSoldOut}>Sold out</Button>
+        <Button variant="dark" onClick={(e) => handleSoldOut(e)}>Sold out</Button>
       </div>
     </>
   );

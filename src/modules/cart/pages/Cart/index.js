@@ -1,7 +1,5 @@
-import React, { memo, useState } from "react";
-
+import React, { memo } from "react";
 import Container from "react-bootstrap/Container";
-import Storage from "../../../../helper/storage";
 import EmptyCart from './EmptyCart';
 import DetailCart from './DetailCart';
 import './cart.css';

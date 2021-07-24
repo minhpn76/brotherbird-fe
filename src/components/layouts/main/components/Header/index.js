@@ -5,12 +5,10 @@ import Col from 'react-bootstrap/Col';
 import Logo from "../../../../../assets/images/logo.png"
 import "./header.css";
 import pathRoutes from '../../../../../helper/pathRoutes'
-import Storage from '../../../../../helper/storage';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { BACKGROUD_CODE } from '../../../../../helper/consts'
-import { getNearYears } from '../../../../../helper/times';
-import { isEmpty } from 'lodash';
+import { cloneDeep, isEmpty } from 'lodash';
 import { shopStart } from '../../../../../modules/home/redux'
 import { unwrapResult } from '@reduxjs/toolkit';
 import { fetchCollections } from '../../../../../modules/collection/redux';
@@ -26,7 +24,7 @@ function Header() {
     { label: 'FAQ', value: 'faq', link: pathRoutes.faq, sub: false }
   ]
 
-  const {collections, cart} = useSelector(
+  const {collections, cart, checkout} = useSelector(
     state => state.collection
   );
   const [openSub, setOpenSub] = useState(false);
@@ -61,7 +59,7 @@ function Header() {
   }
 
   const totalCart = useMemo(() => {
-    let cloneCart = cart || []
+    let cloneCart = cloneDeep(cart)
     if (isEmpty(cloneCart)) {
       return 0
     }
@@ -121,7 +119,7 @@ function Header() {
               style={{position: 'relative'}}
             >
               <svg aria-hidden="true" focusable="false" role="presentation" viewBox="0 0 37 40"><path d="M36.5 34.8L33.3 8h-5.9C26.7 3.9 23 .8 18.5.8S10.3 3.9 9.6 8H3.7L.5 34.8c-.2 1.5.4 2.4.9 3 .5.5 1.4 1.2 3.1 1.2h28c1.3 0 2.4-.4 3.1-1.3.7-.7 1-1.8.9-2.9zm-18-30c2.2 0 4.1 1.4 4.7 3.2h-9.5c.7-1.9 2.6-3.2 4.8-3.2zM4.5 35l2.8-23h2.2v3c0 1.1.9 2 2 2s2-.9 2-2v-3h10v3c0 1.1.9 2 2 2s2-.9 2-2v-3h2.2l2.8 23h-28z"></path></svg>
-              {totalCart > 0 && <span className="numberItem">{totalCart}</span>}
+              {totalCart > 0 && checkout && <span className="numberItem">{totalCart}</span>}
               
             </div>
           </Col>

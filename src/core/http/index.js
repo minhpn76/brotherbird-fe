@@ -1,11 +1,8 @@
 import { API_REQUEST_TIMEOUT, RESPONSE_CODE } from "../../helper/consts";
 import axios from "axios";
 
-import qs from "qs";
 // import { refershTokenUrl } from "./apis/auth/urls";
 import storage from "../../helper/storage";
-
-const RESTFUL_AUTH_URL = process.env.REACT_APP_RESTFUL_AUTH_URL;
 
 const LogType = {
   REQUEST: "req",
@@ -109,8 +106,8 @@ class HttpClient {
   _handleError = (error) => {
     const errorCode = error?.response?.status;
     const errorData = error?.response?.data;
-    const config = error?.response?.config;
-    const refreshToken = storage.getRefreshToken();
+    // const config = error?.response?.config;
+    // const refreshToken = storage.getRefreshToken();
 
     // if (config.url === refershTokenUrl) {
     //   storage.removeToken();

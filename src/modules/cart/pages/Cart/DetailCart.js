@@ -3,25 +3,37 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Table from 'react-bootstrap/Table'
 import Button from 'react-bootstrap/Button'
-import {caculatedItem, typeActionKind} from '../../../../helper/utils'
+import { typeActionKind } from '../../../../helper/utils'
 import {RESTFUL_URL} from '../../../../helper/consts'
-import Storage from '../../../../helper/storage'
 import { useDispatch, useSelector } from "react-redux";
+import { fetchCart } from '../../../collection/redux';
 
 function DetailCart() {
-
+  const dispatch = useDispatch();
   const cart = useSelector(state => state.collection.cart || [])
 
   const handleChooseKind = ({type, item, e}) => {
-  
+    dispatch(fetchCart({
+      type,
+      product: item,
+      valued: e
+    }))
   }
 
   const removeItemCart = (e, item) => {
     e.preventDefault();   
+    dispatch(fetchCart({
+      product: item,
+      valued: e,
+      deleted: true,
+      temp: false
+    }))
   }
 
   const totalPriceCart = useMemo(() => {
-    return cart.reduce((total, c2) => total.toFixed(2) + c2?c2.quanlity*(c2.ProductItemPrice).toFixed(2):0, 0)
+    return cart.map(i => {
+      return i.quanlity*(i.ProductItemPrice).toFixed(2)
+    }).reduce((a, b) => a+b)
   }, [cart])
 
   return (
@@ -48,7 +60,7 @@ function DetailCart() {
                 cart.map((c, idx) => {
                   return (
                     <tr key={idx}>
-                      <td colspan="7" >
+                      <td colSpan="7" >
                         <div className="detail-item">
                           <img width="95" height="95" src={`${RESTFUL_URL}${c.ProductItemImage[0]['url']}`} alt={c.ProductItemTItle} />
                           <div className="view-info">
