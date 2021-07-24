@@ -81,9 +81,9 @@ function* fetchProductSaga(action) {
 function* fetchCartSaga(action) {
   try {
     yield put(showLoading());
-    const { cart } = yield select(state => state.collection)
-    let cloneCart = cloneDeep(cart)
+    const { tempCart, cart } = yield select(state => state.collection)
     const {type, product, valued, deleted, temp} = action.payload
+    let cloneCart = temp ? cloneDeep(tempCart) : cloneDeep(cart)
     let cartItem = {
       ...cloneDeep(product),
       quanlity: 1,
@@ -132,7 +132,6 @@ function* fetchCartSaga(action) {
       cloneCart
     } });
   } catch (error) {
-    console.log('error', error);
     yield put({ type: fetchCartFailed });
   } finally {
     yield put(hideLoading());
@@ -142,12 +141,20 @@ function* fetchCartSaga(action) {
 function* fetchCheckoutSaga(action) {
   try {
     yield put(showLoading());
-    const {  tempCart } = yield select(state => state.collection)
+    const {  tempCart, cart } = yield select(state => state.collection)
     let cloneTempCart = cloneDeep(tempCart)
-    console.log('33', cloneTempCart);
+    let cloneCart = cloneDeep(cart)
+    if (!isEmpty(cloneCart)) {
+      cloneCart = [
+        ...cloneCart,
+        ...cloneTempCart
+      ]
+    } else {
+      cloneCart = cloneTempCart
+    }
     yield put({ type: fetchCartSuccess, payload: {
       temp: false,
-      cloneCart: cloneTempCart
+      cloneCart
     } });
   } catch (error) {
     yield put({ type: fetchCheckoutFailed });
