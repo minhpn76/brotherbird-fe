@@ -82,7 +82,7 @@
     align-items: center;
 }
 .header .menu_mobile, .header .nav_mobile {
-    display: none;
+    display: none!important;
 }
 
 .menu_mobile {
@@ -108,13 +108,13 @@
         padding: 15px 5px;
     }
     .header .menu {
-        display: none;
+        display: none!important;
     }
     .header .nav_mobile {
         margin-left: 20px;
     }
     .header .menu_mobile, .header .nav_mobile {
-        display: block;
+        display: block!important;
     }
     .header .cart div {
         width: 10%;

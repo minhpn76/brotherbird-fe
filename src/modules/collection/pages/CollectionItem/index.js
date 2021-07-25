@@ -25,19 +25,19 @@ function CollectionItem(props) {
   const params = useParams();
   const dispatch = useDispatch();
 
-  const shopSelected = useSelector(
-    state => state.home.data.shop
-  );
-
-  const {products, product} = useSelector(
+  const {collections, product} = useSelector(
     state => state.collection
   )
+
+  const collectionSelected = useMemo(() => {
+    return collections.find(c => c.slugs === params.shop)
+  }, [params.shop])
 
   const cart = useSelector(state => state.collection.cart || [])
 
   const handleBackShop = (e) => {
     e.preventDefault();
-    history.push(`${pathRoutes.collection}/${shopSelected.slugs}`)
+    history.push(`${pathRoutes.collection}/${collectionSelected.slugs}`)
   }
 
   const handleSoldOut = async (e) => {
@@ -53,7 +53,7 @@ function CollectionItem(props) {
     <div className="collection-item">
       {
         !isEmpty(product) && (
-          <Container style={{ padding: "50px 0" }}>
+          <Container style={{ paddingTop: "50px", paddingBottom: "50px" }}>
             <Row>
               <Col md="6" style={{ textAlign: "center" }}>
                 <img style={{width: '100%'}} src={`${RESTFUL_URL}${product.productImage[0]['url']}`} alt={product.ProductTitle}/>
@@ -79,7 +79,7 @@ function CollectionItem(props) {
                 <Button variant="outline-dark"
                   onClick={(e) => handleBackShop(e)}
                 >
-                  {`BACK TO ${shopSelected.collectionName}`}
+                  {`BACK TO ${collectionSelected.collectionName}`}
                 </Button>
               </Col>
             </Row>

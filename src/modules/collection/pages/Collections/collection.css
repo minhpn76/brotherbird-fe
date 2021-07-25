@@ -11,7 +11,7 @@
 .collections .list-product .prd {
     margin-bottom: 50px;
 }
-.collections .list-product .prd .section {
+.collections .prd .section {
     cursor: pointer;
 }
 .collections .img {
@@ -56,6 +56,10 @@
 }
 .collections .name {
     margin-bottom: 0;
+
+}
+.collections .name.hover {
+    text-decoration: underline;
 }
 .collections .price {
     margin-top: 5px;
@@ -66,4 +70,21 @@
     padding: 5px;
     border-radius: 2px;
     font-size: 13px;
+}
+
+@media only screen and (max-width: 480px) {
+    .collections .list-product {
+        margin-top: 30px;
+    }
+    .collections .img {
+        height: 215px;
+    }
+    .tile .name {
+        font-size: 14px;
+        padding: 2px 0;
+    }
+    .tile .price {
+        font-size: 15px;
+        padding: 2px 0;
+    }
 }

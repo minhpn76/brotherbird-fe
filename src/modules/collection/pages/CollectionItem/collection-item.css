@@ -117,3 +117,28 @@
     background-color: #000;
     margin: 40px 0;
 }
+
+
+@media only screen and (max-width: 480px) {
+    .collection-item .path {
+        padding-top: 10px
+    }
+    .collection-item .name {
+        font-size: 30px;
+    }
+    .collection-item .item-desc {
+        margin-top: 40px
+    }
+    .collection-item .list-kind .type .inform .accessy-item span:first-child {
+        font-size: 14px;
+    }
+    .collection-item .item-desc .hash {
+        font-size: 14px;
+    }
+    .collection-item .list-kind .type .check-box {
+        transform: scale(1.5);
+    }
+    .collection-item .list-kind .type {
+        padding: 10px 0;
+    }
+}

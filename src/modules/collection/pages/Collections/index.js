@@ -1,11 +1,11 @@
-import React, { memo, useEffect, } from "react";
+import React, { memo, useEffect, useMemo, } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import "./collection.css";
 import paths from "../../../../helper/pathRoutes";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import {RESTFUL_URL} from '../../../../helper/consts'
 import { unwrapResult } from '@reduxjs/toolkit';
 import { fetchProduct, fetchProductsByCollection } from "../../redux";
@@ -14,33 +14,37 @@ import {isEmpty} from 'lodash'
 function Collections() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const shopSelected = useSelector(
-    state => state.home.data.shop
-  );
+  const params = useParams();
 
-  const { products } = useSelector(
+  const { products, collections } = useSelector(
     state => state.collection
   );
+  
+  const collectionSelected = useMemo(() => {
+    return collections.find(c => c.slugs === params.item)
+  }, [params.item])
 
   useEffect(() => {
-    dispatch(fetchProductsByCollection(shopSelected.id))
-  }, [dispatch, shopSelected.id])
+    if (!isEmpty(collectionSelected)) {
+      dispatch(fetchProductsByCollection(collectionSelected.id))
+    }
+  }, [dispatch, collectionSelected])
 
   const redirectItem = async (e, item) => {
     e.preventDefault();
     const resps = await dispatch(fetchProduct(item))
     const status = unwrapResult(resps);
     if (!isEmpty(status)) {
-      history.push(`${paths.collection}/${shopSelected.slugs}${paths.product}/${item.id}`)
+      history.push(`${paths.collection}/${collectionSelected.slugs}${paths.product}/${item.id}`)
     }
   }
 
   return (
     <div className="collections">
-      <Container style={{ padding: "50px 0" }}>
+      <Container style={{ paddingTop: '50px', paddingBottom: '50px' }}>
         <Row>
           <Col md="12" style={{ textAlign: "center" }}>
-            <h3>{shopSelected.label}</h3>
+            <h3>{collectionSelected.collectionName || ''}</h3>
             <p className="desc">
               <strong>Purchase delivery "date-slots" for the month</strong>
             </p>
@@ -50,7 +54,7 @@ function Collections() {
           {
             products.map((item, idx) => {
               return (
-                <Col md="3" className="prd" key={idx}>
+                <Col md="3" xs="6" className="prd" key={idx}>
                   <div
                     className="section"
                     onClick={(e) => redirectItem(e, item)}>
