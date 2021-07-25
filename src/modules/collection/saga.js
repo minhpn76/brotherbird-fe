@@ -1,14 +1,11 @@
-import Storage from "../../helper/storage";
-import { cloneDeep, isEmpty, omit } from "lodash";
+import { cloneDeep, isEmpty } from "lodash";
 import {
   all,
   call,
   put,
   select,
-  takeEvery,
   takeLatest,
 } from "redux-saga/effects";
-import { RootState } from "../../redux/store";
 import {
   fetchCollections,
   fetchCollectionsSuccess,
@@ -23,7 +20,6 @@ import {
   fetchCartSuccess,
   fetchCartFailed,
   fetchCheckout,
-  fetchCheckoutSuccess,
   fetchCheckoutFailed
 } from './redux'
 import { showLoading, hideLoading } from 'react-redux-loading-bar';

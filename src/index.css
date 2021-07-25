@@ -80,3 +80,35 @@ a:hover {
   position: absolute;
   z-index: 110;
 }
+.info_mobile {
+  display: none;
+}
+
+@media only screen and (max-width: 480px) {
+  .product .pre {
+    padding-top: 50px;
+  }
+  .info {
+    height: 585px;
+    margin: 0 20px;
+    
+  }
+  .line {
+    height: 30px;
+  }
+  .info .contact {
+    display: none;
+  }
+  .info_mobile {
+    display: block;
+    background-color: #E5E7EB;
+  }
+  .info_mobile .contact {
+    background-color: #E5E7EB;
+    padding: 20px;
+    text-align: center;
+  }
+  .fk_bg_mobile {
+    background-color: #E5E7EB;
+  }
+}

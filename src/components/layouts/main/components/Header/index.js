@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useMemo, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -12,6 +12,7 @@ import { cloneDeep, isEmpty } from 'lodash';
 import { shopStart } from '../../../../../modules/home/redux'
 import { unwrapResult } from '@reduxjs/toolkit';
 import { fetchCollections } from '../../../../../modules/collection/redux';
+import MenuMobile from '../MenuMobile';
 
 function Header() {
   const location = useLocation();
@@ -28,6 +29,8 @@ function Header() {
     state => state.collection
   );
   const [openSub, setOpenSub] = useState(false);
+  const [openMobile, setOpenMobile] = useState(false)
+  const [openSubMobile, setOpenSubMobile] = useState(false)
 
   useEffect(() => {
     dispatch(fetchCollections())
@@ -66,15 +69,24 @@ function Header() {
     return cart.map(i => i.quanlity).reduce((a, b) => a + b) 
   }, [cart])
 
+  const handleToogleMobile = useCallback(() => {
+    setOpenMobile(!openMobile)
+  })
+
+  const handleToogleSubMobile = useCallback(() => {
+    setOpenSubMobile(!openSubMobile)
+  })
+
   return (
+    <>
     <section className="header"
       style={location.pathname === pathRoutes.home ? { background: BACKGROUD_CODE['home'] } : { background: BACKGROUD_CODE['faq'] }}>
       <Container fluid={true}>
         <Row>
-          <Col md="3" className="logo">
+          <Col xs="3" md="3" className="logo">
             <a href={pathRoutes.home}><img alt="logo" src={Logo} /></a>
           </Col>
-          <Col md="7" className="menu">
+          <Col md="7" xs="7" className="menu">
             {
               menus.map((menu, idx) => {
                 return (
@@ -113,7 +125,7 @@ function Header() {
               })
             }
           </Col>
-          <Col md="2" className="cart">
+          <Col md="2" xs="9" className="cart">
             <div 
               onClick={(e) => handlePushCart(e)}
               style={{position: 'relative'}}
@@ -122,10 +134,38 @@ function Header() {
               {totalCart > 0 && <span className="numberItem">{totalCart}</span>}
               
             </div>
+            <div className="nav_mobile"
+              onClick={() => handleToogleMobile()}
+            >
+              {
+                !openMobile ? (
+                  <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-hamburger" viewBox="0 0 37 40"><path d="M33.5 25h-30c-1.1 0-2-.9-2-2s.9-2 2-2h30c1.1 0 2 .9 2 2s-.9 2-2 2zm0-11.5h-30c-1.1 0-2-.9-2-2s.9-2 2-2h30c1.1 0 2 .9 2 2s-.9 2-2 2zm0 23h-30c-1.1 0-2-.9-2-2s.9-2 2-2h30c1.1 0 2 .9 2 2s-.9 2-2 2z"></path></svg>
+                ) : (
+                  <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-close" viewBox="0 0 40 40"><path d="M23.868 20.015L39.117 4.78c1.11-1.108 1.11-2.77 0-3.877-1.109-1.108-2.773-1.108-3.882 0L19.986 16.137 4.737.904C3.628-.204 1.965-.204.856.904c-1.11 1.108-1.11 2.77 0 3.877l15.249 15.234L.855 35.248c-1.108 1.108-1.108 2.77 0 3.877.555.554 1.248.831 1.942.831s1.386-.277 1.94-.83l15.25-15.234 15.248 15.233c.555.554 1.248.831 1.941.831s1.387-.277 1.941-.83c1.11-1.109 1.11-2.77 0-3.878L23.868 20.015z" class="layer"></path></svg>
+                )
+              }
+            </div>
           </Col>
         </Row>
       </Container>
+      
+      
     </section>
+    <section>
+      {
+        openMobile && (
+          <MenuMobile
+            menus={menus}
+            openMobile={openMobile}
+            openMobile={openSubMobile}
+            collections={collections}
+            handleSelectMonth={handleSelectMonth}
+            handleToogleSubMobile={handleToogleSubMobile}
+          />
+        )
+      }
+    </section>
+    </>
   )
 }
 

@@ -24,7 +24,7 @@ function Collections() {
 
   useEffect(() => {
     dispatch(fetchProductsByCollection(shopSelected.id))
-  }, [shopSelected.id])
+  }, [dispatch, shopSelected.id])
 
   const redirectItem = async (e, item) => {
     e.preventDefault();

@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { cloneDeep, isEmpty } from "lodash";
 import { ReduxState } from "../../redux/types";
 
 const initialState = {
