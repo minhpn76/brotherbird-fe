@@ -103,6 +103,9 @@
     width: 16px;
     cursor: pointer;
 }
+.rotate90 {
+    transform: rotate(90deg);
+}
 @media only screen and (max-width: 480px) {
     .header {
         padding: 15px 5px;
@@ -118,5 +121,11 @@
     }
     .header .cart div {
         width: 10%;
+    }
+    .menu_mobile .sub-menu {
+        padding-left: 20px;
+    }
+    .menu_mobile .sub-menu div {
+        padding-bottom: 5px;
     }
 }

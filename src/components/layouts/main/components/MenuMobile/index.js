@@ -2,7 +2,6 @@ import React, { memo } from 'react'
 import { useLocation } from 'react-router-dom'
 import pathRoutes from '../../../../../helper/pathRoutes'
 
-
 function MenuMobile ({
     menus, openMobile, openSubMobile,
     collections, handleSelectMonth, handleToogleSubMobile
@@ -27,9 +26,11 @@ function MenuMobile ({
                       </div>
                       {
                         menu.sub && (
-                            <div className="open_sub_right">
-                                <svg aria-hidden="true" focusable="false" role="presentation" className="icon icon-chevron-right" viewBox="0 0 14 14"><path d="M3.871.604c.44-.439 1.152-.439 1.591 0l5.515 5.515s-.049-.049.003.004l.082.08c.439.44.44 1.153 0 1.592l-5.6 5.6a1.125 1.125 0 0 1-1.59-1.59L8.675 7 3.87 2.195a1.125 1.125 0 0 1 0-1.59z" fill="#000"></path></svg>
-                            </div>
+                          <div className="open_sub_right" onClick={() => handleToogleSubMobile()}>
+                              <svg aria-hidden="true" focusable="false" role="presentation" 
+                                className={"icon icon-chevron-right " + (openSubMobile ? "rotate90" : "")} 
+                                viewBox="0 0 14 14"><path d="M3.871.604c.44-.439 1.152-.439 1.591 0l5.515 5.515s-.049-.049.003.004l.082.08c.439.44.44 1.153 0 1.592l-5.6 5.6a1.125 1.125 0 0 1-1.59-1.59L8.675 7 3.87 2.195a1.125 1.125 0 0 1 0-1.59z" fill="#000"></path></svg>
+                          </div>
                         )
                       }
 

@@ -9,10 +9,9 @@ import { useSelector } from "react-redux";
 function Cart() {
   const cart = useSelector(state => state.collection.cart || [])
 
-
   return (
     <div className="cart-section">
-      <Container style={{padding: '50px 0'}}> 
+      <Container style={{paddingTop: '50px', paddingBottom: '50px'}}> 
         {
           isEmpty(cart) ? (
             <EmptyCart/>

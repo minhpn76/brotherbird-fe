@@ -87,37 +87,18 @@ function DetailCart() {
                 })
               }
             </tbody>
-            <tfoot>
-              <tr>
-                <th > </th>
-                <th > </th>
-                <th > </th>
-                <th > </th>
-                <th > </th>
-                <th > </th>
-                <th > </th>
-                <th>Subtotal</th>
-                <th>${totalPriceCart.toFixed(2)}SGD</th>
-              </tr>
-              <tr>
-                <td > </td>
-                <td > </td>
-                <td > </td>
-                <td > </td>
-                <td > </td>
-                <td > </td>
-                <td > </td>
-                <td colSpan="2">
-                  <p><i style={{ fontSize: '12px' }}>Taxes and shipping calculated at checkout</i></p>
-                  <Button variant="dark"
-                    onClick={(e) => { }}
-                  >
-                    CHECK OUT
-                  </Button>
-                </td>
-              </tr>
-            </tfoot>
           </Table>
+        </div>
+        <div className="bill">
+          <div><b className="titleTotal">Subtotal</b><b>{`${totalPriceCart.toFixed(2)}SGD`}</b></div>
+          <div className="checkOut">
+            <p><i style={{ fontSize: '12px' }}>Taxes and shipping calculated at checkout</i></p>
+            <Button variant="dark"
+              onClick={(e) => { }}
+            >
+              CHECK OUT
+            </Button>
+          </div>
         </div>
       </Col>
     </Row>
