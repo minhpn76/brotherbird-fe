@@ -5,7 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import "./collection.css";
 import paths from "../../../../helper/pathRoutes";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import {RESTFUL_URL} from '../../../../helper/consts'
 import { unwrapResult } from '@reduxjs/toolkit';
 import { fetchProduct, fetchProductsByCollection } from "../../redux";
@@ -14,6 +14,7 @@ import {isEmpty} from 'lodash'
 function Collections() {
   const history = useHistory();
   const dispatch = useDispatch();
+  const location = useLocation()
   const params = useParams();
 
   const { products, collections } = useSelector(
@@ -22,7 +23,7 @@ function Collections() {
   
   const collectionSelected = useMemo(() => {
     return collections.find(c => c.slugs === params.item)
-  }, [params.item])
+  }, [params.item, location.key])
 
   useEffect(() => {
     if (!isEmpty(collectionSelected)) {
@@ -44,7 +45,7 @@ function Collections() {
       <Container style={{ paddingTop: '50px', paddingBottom: '50px' }}>
         <Row>
           <Col md="12" style={{ textAlign: "center" }}>
-            <h3>{collectionSelected.collectionName || ''}</h3>
+            <h3>{collectionSelected ? collectionSelected.collectionName : ''}</h3>
             <p className="desc">
               <strong>Purchase delivery "date-slots" for the month</strong>
             </p>

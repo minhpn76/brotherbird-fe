@@ -17,13 +17,13 @@ import { cloneDeep, isEmpty } from "lodash";
 import {RESTFUL_URL} from '../../../../helper/consts'
 import { fetchCheckout } from "../../redux";
 import { unwrapResult } from '@reduxjs/toolkit';
-
-let kindProduct = []
+import Slider from "react-slick";
 
 function CollectionItem(props) {
   const history = useHistory();
   const params = useParams();
   const dispatch = useDispatch();
+  const location = useLocation()
 
   const {collections, product} = useSelector(
     state => state.collection
@@ -31,7 +31,7 @@ function CollectionItem(props) {
 
   const collectionSelected = useMemo(() => {
     return collections.find(c => c.slugs === params.shop)
-  }, [params.shop])
+  }, [params.shop, location.key])
 
   const cart = useSelector(state => state.collection.cart || [])
 
@@ -49,6 +49,44 @@ function CollectionItem(props) {
     }
   }
 
+  const listProducImg = useMemo(() => {
+    if(isEmpty(product)) {
+      return []
+    }
+    const prodImage = product.productImage[0]['url']
+    let temp = [prodImage]
+    if (!isEmpty(product.ProductItems)) {
+      product.ProductItems.forEach(element => {
+        temp = [
+          ...temp,
+          element.ProductItemImage[0]['url']
+        ]
+      });
+    }
+    return temp
+  }, [product])
+
+  const settings = {
+    dots: false,
+    infinite: false,
+    vertical: false,
+    speed: 500,
+
+    initialSlide: 0,
+    arrows: false,
+    responsive: [
+      {
+        breakpoint: 1280,
+        settings: {
+          slidesToShow: 5,
+          slidesToScroll: 3,
+          infinite: false
+        }
+      },
+    ]
+  }
+
+  const [selectedImage,setSelectedImage] = useState('')
   return (
     <div className="collection-item">
       {
@@ -56,7 +94,23 @@ function CollectionItem(props) {
           <Container style={{ paddingTop: "50px", paddingBottom: "50px" }}>
             <Row>
               <Col md="6" style={{ textAlign: "center" }}>
-                <img style={{width: '100%'}} src={`${RESTFUL_URL}${product.productImage[0]['url']}`} alt={product.ProductTitle}/>
+                <img style={{width: '100%'}} 
+                  src={selectedImage?`${RESTFUL_URL}${selectedImage}`:`${RESTFUL_URL}${product.productImage[0]['url']}`} 
+                  alt={product.ProductTitle}/>
+                <div className="slideImgProd">
+                  <Slider {...settings}>
+                    {
+                      listProducImg.map((prodImg, idx) => {
+                        return (
+                          <div className="blockImg" onClick={() => setSelectedImage(prodImg)}>
+                            <img style={selectedImage===prodImg?{border: '2px solid'}:{}} src={`${RESTFUL_URL}${prodImg}`} alt={idx}/>
+                          </div>
+                        )
+                      })
+                    }
+                  </Slider>
+                  
+                </div>
               </Col>
               <Col md="6">
                 <div className="path">
@@ -79,7 +133,7 @@ function CollectionItem(props) {
                 <Button variant="outline-dark"
                   onClick={(e) => handleBackShop(e)}
                 >
-                  {`BACK TO ${collectionSelected.collectionName}`}
+                  {`BACK TO ${collectionSelected?collectionSelected.collectionName:params.item.replace('-', '').toUpperCase()}`}
                 </Button>
               </Col>
             </Row>

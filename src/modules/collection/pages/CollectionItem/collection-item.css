@@ -117,6 +117,52 @@
     background-color: #000;
     margin: 40px 0;
 }
+.slideImgProd {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 20px
+}
+.slideImgProd .slick-slider {
+    
+    width: 100%;
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -khtml-user-select: none;
+    -ms-touch-action: pan-y;
+    touch-action: pan-y;
+}
+.slideImgProd .blockImg {
+    margin-right: 10px;
+}
+.slideImgProd .slick-slider .slick-list{
+    position: relative;
+    display: block;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+.slick-slide {
+    outline: none;
+    width: 66px;
+    float: left;
+    height: 100%;
+    min-height: 1px;
+    display: block;
+}
+.slick-slide div:first-child {
+    margin-right: 10px;
+}
+.slideImgProd .blockImg img {
+    width: 100%;
+    cursor: pointer;
+}
 
 
 @media only screen and (max-width: 480px) {
