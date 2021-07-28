@@ -71,19 +71,10 @@ function CollectionItem(props) {
     infinite: false,
     vertical: false,
     speed: 500,
-
+    slidesToShow: 5,
+    slidesToScroll: 3,
     initialSlide: 0,
     arrows: false,
-    responsive: [
-      {
-        breakpoint: 1280,
-        settings: {
-          slidesToShow: 5,
-          slidesToScroll: 3,
-          infinite: false
-        }
-      },
-    ]
   }
 
   const [selectedImage,setSelectedImage] = useState('')
