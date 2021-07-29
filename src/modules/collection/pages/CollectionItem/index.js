@@ -85,9 +85,10 @@ function CollectionItem(props) {
           <Container style={{ paddingTop: "50px", paddingBottom: "50px" }}>
             <Row>
               <Col md="6" style={{ textAlign: "center" }}>
-                <img style={{width: '100%'}} 
+                <img className="imgProd" 
                   src={selectedImage?`${RESTFUL_URL}${selectedImage}`:`${RESTFUL_URL}${product.productImage[0]['url']}`} 
-                  alt={product.ProductTitle}/>
+                  alt={product.ProductTitle}
+                />
                 <div className="slideImgProd">
                   <Slider {...settings}>
                     {

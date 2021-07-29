@@ -1,6 +1,6 @@
 .header {
     background-color: #e5e7eb;
-    padding: 15px 55px;
+    padding: 5px 55px;
     display: flex;
     align-items: center;
 }
@@ -9,7 +9,7 @@
     cursor: pointer;
 }
 .header .logo img {
-    max-width: 30px;
+    max-width: 60px;
 }
 .header .menu {
     display: flex;
