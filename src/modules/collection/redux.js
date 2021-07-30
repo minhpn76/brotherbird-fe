@@ -6,6 +6,7 @@ const initialState = {
     products: [],
     product: {},
     cart: [],
+    itemRemoved: {},
     tempCart: [],
     status: ReduxState.INIT
 }
@@ -144,6 +145,31 @@ const collectionSlice = createSlice({
           status: ReduxState.ERROR
         }
       },
+      //
+      fetchCartItemRemoved: (state, action) => {
+        return {
+          ...state,
+          status: ReduxState.LOADING,
+          itemRemoved: {}
+        }
+      },
+      fetchCartItemRemovedSuccess: (
+        state,
+        action
+      ) => {
+        return {
+          ...state,
+          itemRemoved: action.payload,
+          status: ReduxState.SUCCESS
+        }
+      },
+      fetchCartItemRemovedFailed: (state, action) => {
+        return {
+          ...state,
+          itemRemoved: {},
+          status: ReduxState.ERROR
+        }
+      },
     },
   });
 
@@ -162,7 +188,10 @@ const collectionSlice = createSlice({
     fetchCartFailed,
     fetchCheckout,
     fetchCheckoutSuccess,
-    fetchCheckoutFailed
+    fetchCheckoutFailed,
+    fetchCartItemRemoved,
+    fetchCartItemRemovedSuccess,
+    fetchCartItemRemovedFailed,
   } = collectionSlice.actions;
   
   export const selectorCollection = (state) => state.collection;

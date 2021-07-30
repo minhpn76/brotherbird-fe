@@ -55,7 +55,8 @@
     margin-top: 15px;
 }
 .collections .name {
-    margin-bottom: 0;
+    margin-bottom: 10px;
+    font-weight: 600;
 
 }
 .collections .name.hover {

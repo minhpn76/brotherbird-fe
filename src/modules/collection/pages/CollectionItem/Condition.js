@@ -1,4 +1,5 @@
 import React, { memo } from "react";
+import {MarkDown} from '../../../../components/layouts/main/components'
 
 function Condition({description}) {
   const htmlDecode = (input)=>{
@@ -83,7 +84,7 @@ function Condition({description}) {
         flavour). Strictly no swapping/customisation of flavours.
       </p>
       <div className="hr-line"></div>
-      <div dangerouslySetInnerHTML={{ __html: htmlDecode(description) }} />
+      <MarkDown content={description}/>
       {/* <div>{description}</div> */}
       {/* <p className="hash">PURCHASE THIS DATE-SLOT FOR THE MONTH OF JULY</p>
       <p className="hash">JULY 2021 flavours</p>

@@ -7,10 +7,12 @@ import { typeActionKind } from '../../../../helper/utils'
 import {RESTFUL_URL} from '../../../../helper/consts'
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCart } from '../../../collection/redux';
+import { isEmpty } from 'lodash';
 
 function DetailCart() {
   const dispatch = useDispatch();
   const cart = useSelector(state => state.collection.cart || [])
+  const itemRemoved = useSelector(state => state.collection.itemRemoved || {})
 
   const handleChooseKind = ({type, item, e}) => {
     dispatch(fetchCart({
@@ -37,6 +39,7 @@ function DetailCart() {
   }, [cart])
 
   return (
+    <>
     <Row>
       <Col md={{ span: 8, offset: 2 }} style={{ textAlign: 'left' }}>
         <h3>Your Cart</h3>
@@ -56,6 +59,19 @@ function DetailCart() {
               </tr>
             </thead>
             <tbody>
+              {console.log('itemRemoved',itemRemoved)}
+              {
+                !isEmpty(itemRemoved) && (
+                  <tr>
+                    <td colSpan="9" style={{borderBottom: '1px solid'}}>
+                      <span>Removed </span>
+                      <b>{`(${itemRemoved.quanlity}) ${itemRemoved.ProductItemTItle}`}</b>
+                      <span> from your cart.</span>
+                    </td>
+                  </tr>
+                )
+              }
+
               {
                 cart.map((c, idx) => {
                   return (
@@ -79,8 +95,7 @@ function DetailCart() {
                         </div>
                       </td>
                       <td>
-
-                        <p style={{ fontSize: '18px' }}><strong>${c.ProductItemPrice.toFixed(2)}</strong></p>
+                        <p style={{ fontSize: '18px', paddingTop: '10px' }}><strong>${c.ProductItemPrice.toFixed(2)}</strong></p>
                       </td>
                     </tr>
                   )
@@ -102,6 +117,7 @@ function DetailCart() {
         </div>
       </Col>
     </Row>
+    </>
   )
 }
 export default memo(DetailCart)

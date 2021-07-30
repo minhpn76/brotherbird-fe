@@ -66,8 +66,8 @@ function Collections() {
                       </div>
                     </div>
                     <div className="tile">
-                      {/* <h6 className="name">{item.ProductTitle}</h6>
-                      <h5 className="price">
+                      <h6 className="name">{item.ProductTitle}</h6>
+                      {/* <h5 className="price">
                         <strong>$32.00</strong>
                       </h5> */}
                       <span className="sold-out">

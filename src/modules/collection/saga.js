@@ -20,7 +20,9 @@ import {
   fetchCartSuccess,
   fetchCartFailed,
   fetchCheckout,
-  fetchCheckoutFailed
+  fetchCheckoutFailed,
+  fetchCartItemRemoved,
+  fetchCartItemRemovedSuccess
 } from './redux'
 import { showLoading, hideLoading } from 'react-redux-loading-bar';
 import httpServices from '../../core/http/apis'
@@ -77,6 +79,7 @@ function* fetchProductSaga(action) {
 function* fetchCartSaga(action) {
   try {
     // yield put(showLoading());
+    yield put({ type: fetchCartItemRemoved});
     const { tempCart, cart } = yield select(state => state.collection)
     const {type, product, valued, deleted, temp} = action.payload
     let cloneCart = temp ? cloneDeep(tempCart) : cloneDeep(cart)
@@ -87,9 +90,9 @@ function* fetchCartSaga(action) {
     }
     if (deleted) {
       let newData = cloneCart.filter(i => i.id !== cartItem.id)
+      yield put({ type: fetchCartItemRemovedSuccess, payload: product});
       cloneCart = newData
     } else {
-      console.log('cartItem', cartItem);
       if (isEmpty(cloneCart)) {
         if(type === typeActionKind.SELECT) {
           cartItem.selected = valued.target.checked

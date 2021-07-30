@@ -28,7 +28,7 @@ function Kind(props, ref) {
     <>
       <div className="kind">
         <div className="quanlity">
-          <span>Quanlity</span>
+          <span>Quantity</span>
           <input min="1" max="100" type="number" defaultValue={1}
           value={quanlityItemBase || 1}/>
         </div>
@@ -58,7 +58,7 @@ function Kind(props, ref) {
         </div>
       </div>
       <div className="checkout">
-        <Button variant="dark" onClick={(e) => handleSoldOut(e)}>Sold out</Button>
+        <Button variant="dark" onClick={(e) => handleSoldOut(e)}>Order</Button>
       </div>
     </>
   );

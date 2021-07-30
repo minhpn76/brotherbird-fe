@@ -89,18 +89,23 @@ function Header() {
           <Col md="7" xs="7" className="menu">
             {
               menus.map((menu, idx) => {
+                const condition1 = location.pathname === `/${menu.value}` && !openSub
+                const condition2 = openSub
+                  && (![pathRoutes.home, pathRoutes.faq].includes(menu.link)
+                  || (location.pathname.includes(menu.link) && idx !== 0))
                 return (
                   <div className="block" key={idx} style={menu.link === pathRoutes.collection ? { position: 'relative' } : {}}>
                     <div onClick={(e) => handlePushLink(e, menu.link)}
-                      className={location.pathname === `/${menu.value}` && !openSub ? 'active inline-menu' : (
-                        openSub
-                          && (![pathRoutes.home, pathRoutes.faq].includes(menu.link)
-                          || (location.pathname.includes(menu.link) && idx !== 0))
-                         ? 'active inline-menu' : 'inline-menu'
-                      )}
+                      className={'inline-menu'}
                     >
-                      <span>{menu.label}</span>
-
+                      <div>{menu.label}</div>
+                      {
+                        condition1 ? (
+                          <div className="underLine"></div>
+                        ) : (
+                          condition2 ? (<div className="underLine"></div>) : null
+                        )
+                      }
                     </div>
                     {
                       menu.sub && openSub && (

@@ -108,7 +108,7 @@ function CollectionItem(props) {
                 <div className="path">
                   <p className="name">{product.ProductTitle}</p>
                   {/* <span className="price">$32.00</span> */}
-                  <span className="status-item">BUY NOW</span>
+                  <span className="status-item">ENJOY NOW</span>
                 </div>
                 <Kind 
                   quanlityItemBase={product.quanlity}
