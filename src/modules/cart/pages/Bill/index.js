@@ -2,12 +2,13 @@ import React, { memo, useMemo, useState } from "react";
 import { Container, Row, Col, Form, Tab, Nav, Button } from "react-bootstrap";
 import "./bill.css";
 import { useDispatch, useSelector } from "react-redux";
-import { isEmpty } from "lodash";
+import { isEmpty, sortBy } from "lodash";
 import { RESTFUL_URL } from "../../../../helper/consts";
 import moment from "moment";
 import { unwrapResult } from '@reduxjs/toolkit';
 import { validateEmail, validatePhonenumber } from "../../../../helper/utils";
 import { saveReceipt } from '../../redux'
+import {clearCart} from '../../../collection/redux'
 import pathRoutes from '../../../../helper/pathRoutes'
 import { useHistory } from "react-router";
 
@@ -84,9 +85,9 @@ function Bill(props) {
       })
     };
     const resps = await dispatch(saveReceipt(body))
-    console.log('resps', resps);
     const status = unwrapResult(resps);
     if (!isEmpty(status)) {
+      dispatch(clearCart())
       history.push(`${pathRoutes.home}`)
     }    
   };
@@ -217,7 +218,7 @@ function Bill(props) {
                         }
                       </Form.Group>
                       <div>
-                        <Button variant="primary"
+                        <Button variant="dark"
                           onClick={() => onSubmit()}
                           disabled={!enabledSubmit}
                         >
@@ -234,7 +235,7 @@ function Bill(props) {
           <Col md="6">
             <div className="list-cart">
               {!isEmpty(cart) &&
-                cart.map((c, idx) => {
+                sortBy(cart, ['id']).map((c, idx) => {
                   return (
                     <div className="item" key={idx}>
                       <div className="bill-info">

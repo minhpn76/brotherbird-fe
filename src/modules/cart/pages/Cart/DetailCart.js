@@ -1,4 +1,5 @@
 import React, { memo, useMemo } from 'react';
+import { Link } from "react-router-dom";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Table from 'react-bootstrap/Table'
@@ -7,9 +8,10 @@ import { typeActionKind } from '../../../../helper/utils'
 import {RESTFUL_URL} from '../../../../helper/consts'
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCart } from '../../../collection/redux';
-import { isEmpty } from 'lodash';
-import paths from '../../../../helper/pathRoutes';
+import { isEmpty, sortBy } from 'lodash';
+import pathRoutes from '../../../../helper/pathRoutes';
 import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function DetailCart() {
   const dispatch = useDispatch();
@@ -18,6 +20,19 @@ function DetailCart() {
   const itemRemoved = useSelector(state => state.collection.itemRemoved || {})
 
   const handleChooseKind = ({type, item, e}) => {
+    
+    if (type === typeActionKind.QUANTITY) {
+      toast.info(`(${e.target.value}) ${item.ProductItemTItle} added to cart`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+    }
+    
     dispatch(fetchCart({
       type,
       product: item,
@@ -75,7 +90,7 @@ function DetailCart() {
               }
 
               {
-                cart.map((c, idx) => {
+                !isEmpty(cart) && sortBy(cart, ['id']).map((c, idx) => {
                   return (
                     <tr key={idx}>
                       <td colSpan="7" >
@@ -110,11 +125,11 @@ function DetailCart() {
           <div><b className="titleTotal">Subtotal</b><b>{`${totalPriceCart.toFixed(2)}SGD`}</b></div>
           <div className="checkOut">
             <p><i style={{ fontSize: '12px' }}>Taxes and shipping calculated at checkout</i></p>
-            <Button variant="dark"
-              onClick={(e) => { history.push(`${paths.bill}`) }}
-            >
-              CHECK OUT
+            <Link to={pathRoutes.bill}>
+              <Button variant="dark">
+                CHECK OUT
             </Button>
+            </Link>
           </div>
         </div>
       </Col>

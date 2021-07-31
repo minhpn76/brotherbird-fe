@@ -7,7 +7,8 @@ const paths = {
     pwerShopify: '#',
     instagram: '#',
     product: '/products',
-    cart: '/cart'
+    cart: '/cart',
+    bill: '/bill',
   };
   
   export default paths;

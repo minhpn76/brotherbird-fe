@@ -170,6 +170,16 @@ const collectionSlice = createSlice({
           status: ReduxState.ERROR
         }
       },
+      //clear cart
+      clearCart:(state, action) => {
+        return {
+          ...state,
+          cart: [],
+          itemRemoved: {},
+          tempCart: [],
+          status: ReduxState.SUCCESS
+        }
+      }
     },
   });
 
@@ -192,6 +202,7 @@ const collectionSlice = createSlice({
     fetchCartItemRemoved,
     fetchCartItemRemovedSuccess,
     fetchCartItemRemovedFailed,
+    clearCart
   } = collectionSlice.actions;
   
   export const selectorCollection = (state) => state.collection;

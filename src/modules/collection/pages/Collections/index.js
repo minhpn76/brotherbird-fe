@@ -23,7 +23,7 @@ function Collections() {
   
   const collectionSelected = useMemo(() => {
     return collections.find(c => c.slugs === params.item)
-  }, [params.item, location.key])
+  }, [params.item, location.key, collections])
 
   useEffect(() => {
     if (!isEmpty(collectionSelected)) {
