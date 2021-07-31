@@ -3,7 +3,8 @@ export const AppReducerType = {
     HOME: "home",
     FAQ: "faq",
     COLLECTION: "collection",
-    LOADING_BAR: "loadingBar"
+    LOADING_BAR: "loadingBar",
+    CART: "cart"
 }
 
 export const ReduxState = {

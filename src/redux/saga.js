@@ -3,11 +3,13 @@ import authSaga from "../modules/auth/saga";
 import homeSaga from "../modules/home/saga";
 import faqSaga from "../modules/faq/saga";
 import collectionSaga from "../modules/collection/saga";
+import cartSaga from "../modules/cart/saga";
 
 
 export default function* rootSaga() {
   yield all([
     authSaga(), homeSaga(), 
-    faqSaga(), collectionSaga()
+    faqSaga(), collectionSaga(),
+    cartSaga()
   ]);
 }

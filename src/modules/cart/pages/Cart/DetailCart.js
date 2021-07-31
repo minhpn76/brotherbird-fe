@@ -8,9 +8,12 @@ import {RESTFUL_URL} from '../../../../helper/consts'
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCart } from '../../../collection/redux';
 import { isEmpty } from 'lodash';
+import paths from '../../../../helper/pathRoutes';
+import { useHistory } from 'react-router-dom';
 
 function DetailCart() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const cart = useSelector(state => state.collection.cart || [])
   const itemRemoved = useSelector(state => state.collection.itemRemoved || {})
 
@@ -59,7 +62,6 @@ function DetailCart() {
               </tr>
             </thead>
             <tbody>
-              {console.log('itemRemoved',itemRemoved)}
               {
                 !isEmpty(itemRemoved) && (
                   <tr>
@@ -109,7 +111,7 @@ function DetailCart() {
           <div className="checkOut">
             <p><i style={{ fontSize: '12px' }}>Taxes and shipping calculated at checkout</i></p>
             <Button variant="dark"
-              onClick={(e) => { }}
+              onClick={(e) => { history.push(`${paths.bill}`) }}
             >
               CHECK OUT
             </Button>
