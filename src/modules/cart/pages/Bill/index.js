@@ -11,6 +11,7 @@ import { saveReceipt } from '../../redux'
 import {clearCart} from '../../../collection/redux'
 import pathRoutes from '../../../../helper/pathRoutes'
 import { useHistory } from "react-router";
+import { toast } from 'react-toastify';
 
 function Bill(props) {
   const dispatch = useDispatch();
@@ -60,7 +61,6 @@ function Bill(props) {
       [key]: value
     })
   }
-  
 
   const onSubmit = async () => {
     const body = {
@@ -74,13 +74,14 @@ function Bill(props) {
         CustomerAddressDetail: infoCustomer.CustomerAddressDetail,
         PostalCode: infoCustomer.CustomerAddressDetail,
         DeliveryDate: moment().add(7, 'days').format('YYYY-MM-DD HH:mm:ss'),
-        TotalProductItems: isEmpty(cart)?0:cart.length,
+        TotalProduct: isEmpty(cart)?0:cart.length,
         TotalMoney: totalPriceCart,
       },
-      productItems: isEmpty(cart)?[]: cart.map((c) => {
+      products: isEmpty(cart)?[]: cart.map((c) => {
         return {
-          id: c.id,
-          quantity: c.quanlity
+          productItemId: c.id,
+          quantity: c.quanlity,
+          productId: c.productParentItem
         }
       })
     };
@@ -88,7 +89,18 @@ function Bill(props) {
     const status = unwrapResult(resps);
     if (!isEmpty(status)) {
       dispatch(clearCart())
-      history.push(`${pathRoutes.home}`)
+      toast(`Order successfully!`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+      setTimeout(() => {
+        history.push(`${pathRoutes.home}`)
+      }, 1500)
     }    
   };
   return (

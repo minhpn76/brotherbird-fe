@@ -17,6 +17,7 @@ function* saveReceiptSaga(action) {
   try {
     yield put(showLoading());
     const resps = yield call(fetchSaveRecieptReq, action.payload)
+    console.log('resps', resps);
     yield put({ type: saveReceiptSuccess, payload: resps });
   } catch (error) {
     yield put({ type: saveReceiptFailed });

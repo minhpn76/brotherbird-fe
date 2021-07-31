@@ -115,7 +115,7 @@ function CollectionItem(props) {
                   kindProduct={product.ProductItems}
                   handleSoldOut={handleSoldOut}
                   cart={cart}
-                  
+                  productParentItem={+ params.item}
                 />
                 <Condition
                   description={product.Description}

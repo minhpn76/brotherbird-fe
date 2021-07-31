@@ -12,13 +12,16 @@ function Kind(props, ref) {
 
   const {
     quanlityItemBase, kindProduct, 
-    handleSoldOut, cart
+    handleSoldOut, cart, productParentItem
   } = props;
 
   const handleChooseKind = ({type, item, e}) => {
     dispatch(fetchCart({
       type,
-      product: item,
+      product: {
+        ...item,
+        productParentItem
+      },
       valued: e,
       deleted: false,
       temp: true  
