@@ -5,6 +5,25 @@
     align-items: center;
 }
 
+.header .nav-link {
+    padding: 0!important;
+}
+.header .dropdown-toggle::after {
+    display: none;
+}
+.header .dropdown-menu {
+    border: none;
+}
+.header .dropdown-item {
+    font-weight: 600;
+}
+.header .dropdown-item:focus, .header .dropdown-item:hover{
+    background: none!important;
+}
+.header .dropdown-item:hover span{
+    border-bottom: 2px solid;
+    padding-bottom: 1px;
+}
 .header .logo img, .header .cart svg {
     cursor: pointer;
 }

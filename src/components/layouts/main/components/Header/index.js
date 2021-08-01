@@ -1,7 +1,9 @@
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { Nav, NavDropdown} from 'react-bootstrap';
+
 import Logo from "../../../../../assets/images/logo.png"
 import "./header.css";
 import pathRoutes from '../../../../../helper/pathRoutes'
@@ -95,33 +97,42 @@ function Header() {
                   || (location.pathname.includes(menu.link) && idx !== 0))
                 return (
                   <div className="block" key={idx} style={menu.link === pathRoutes.collection ? { position: 'relative' } : {}}>
-                    <div onClick={(e) => handlePushLink(e, menu.link)}
-                      className={'inline-menu'}
-                    >
-                      <div>{menu.label}</div>
-                      {
-                        condition1 ? (
-                          <div className="underLine"></div>
-                        ) : (
-                          condition2 ? (<div className="underLine"></div>) : null
-                        )
-                      }
-                    </div>
                     {
-                      menu.sub && openSub && (
-                        <div className="sub-menu">
+                      !menu.sub && (
+                        <div onClick={(e) => handlePushLink(e, menu.link)}
+                          className={'inline-menu'}
+                        >
+                          <div><Nav.Link href={menu.link}>{menu.label}</Nav.Link></div>
                           {
-                            collections.map((time, idx) => {
-                              return (
-                                <div 
-                                  onClick={(e) => handleSelectMonth(e, time)} 
-                                  key={idx}
-                                >
-                                  <span>{time.collectionName?`${time.collectionName.charAt(0)}${time.collectionName.slice(1).toLowerCase()}`:''}</span>
-                                </div>
-                              )
-                            })
+                            condition1 ? (
+                              <div className="underLine"></div>
+                            ) : null
                           }
+                        </div>
+                      )
+                    }
+                    {
+                      menu.sub && (
+                        <div className={'inline-menu'}>
+                        <NavDropdown title={menu.label}>
+                            {
+                              collections.map((time, idx) => {
+                                return (
+                                  <div 
+                                    onClick={(e) => handleSelectMonth(e, time)} 
+                                    key={idx}
+                                  >
+                                    <NavDropdown.Item href="#">
+                                      <span>
+                                        {time.collectionName?`${time.collectionName.charAt(0)}${time.collectionName.slice(1).toLowerCase()}`:''}
+                                      </span>
+                                    </NavDropdown.Item>
+                                  </div>
+                                )
+                              })
+                            }
+                        </NavDropdown>
+                  
                         </div>
                       )
                     }

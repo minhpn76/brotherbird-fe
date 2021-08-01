@@ -5,7 +5,7 @@ const paths = {
     collection: '/collections',
     faq: '/faq',
     pwerShopify: '#',
-    instagram: '#',
+    instagram: 'https://www.instagram.com/suguruhomedining/?hl=en',
     product: '/products',
     cart: '/cart',
     bill: '/bill',

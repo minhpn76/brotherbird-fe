@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useMemo, } from "react";
+import React, { memo, useEffect, useLayoutEffect, useMemo, } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -23,13 +23,14 @@ function Collections() {
   
   const collectionSelected = useMemo(() => {
     return collections.find(c => c.slugs === params.item)
-  }, [params.item, location.key, collections])
+  }, [params.item, collections])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    const collectionSelected = collections.find(c => c.slugs === params.item)
     if (!isEmpty(collectionSelected)) {
       dispatch(fetchProductsByCollection(collectionSelected.id))
     }
-  }, [dispatch, collectionSelected])
+  }, [dispatch])
 
   const redirectItem = async (e, item) => {
     e.preventDefault();

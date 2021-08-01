@@ -8,7 +8,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   
 }
-
+.Toastify__toast {
+  border: 1px solid #ddd;
+}
+.Toastify__progress-bar {
+  background: rgba(255, 124, 2, 0.74)!important;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

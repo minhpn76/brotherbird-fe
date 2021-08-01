@@ -22,7 +22,7 @@ function DetailCart() {
   const handleChooseKind = ({type, item, e}) => {
     
     if (type === typeActionKind.QUANTITY) {
-      toast.info(`(${e.target.value}) ${item.ProductItemTItle} added to cart`, {
+      toast(`(${e.target.value}) ${item.ProductItemTItle} added to cart`, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
