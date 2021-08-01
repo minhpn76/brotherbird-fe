@@ -1,5 +1,6 @@
 import { AppReducerType } from "./types";
-import storage from "redux-persist/lib/storage";
+// import storage from "redux-persist/lib/storage";
+import storage from 'redux-persist/lib/storage/session';
 import { createTransform } from "redux-persist";
 import {ReduxState} from './types'
 
@@ -32,5 +33,5 @@ export const persistConfig = {
     AppReducerType.COLLECTION,
     AppReducerType.LOADING_BAR,
   ],
-  transforms: [Transform],
+  // transforms: [Transform],
 };
