@@ -44,7 +44,9 @@ function Kind(props, ref) {
                     onChange={(e) => {handleChooseKind({type: typeActionKind.SELECT,item: p, e})}}
                   />
                   <div className="inform">
-                    <img src={`${RESTFUL_URL}${p.ProductItemImage[0]['url']}`} alt={p.ProductItemTItle} />
+                    <div className="inform-item">
+                      <img src={`${RESTFUL_URL}${p.ProductItemImage[0]['url']}`} alt={p.ProductItemTItle} />
+                    </div>
                     <div className="accessy-item">
                       <span>{p.ProductItemTItle}</span>
                       <span className="price">${p.ProductItemPrice.toFixed(2)}</span>
