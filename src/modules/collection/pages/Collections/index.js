@@ -30,7 +30,7 @@ function Collections() {
     if (!isEmpty(collectionSelected)) {
       dispatch(fetchProductsByCollection(collectionSelected.id))
     }
-  }, [dispatch])
+  }, [dispatch, location.key])
 
   const redirectItem = async (e, item) => {
     e.preventDefault();

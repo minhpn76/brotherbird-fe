@@ -66,6 +66,18 @@
 .cart-section .bill .titleTotal {
     margin-right: 20px;
 }
+.detail-item .image-item {
+    width: 95px;
+    height: 95px;
+    overflow: hidden;
+}
+.detail-item .image-item img {
+    width: 100%;
+    height: 100%;
+}
+.btn--checkMenu {
+    display: flex;
+}
 
 @media only screen and (max-width: 480px) {
     .cart-section .bill {
@@ -73,5 +85,13 @@
     }
     .cart-section .bill .checkOut {
         text-align: center;
+    }
+    .detail-item .image-item {
+        width: 80px;
+        height: 80px;
+        overflow: hidden;
+    }
+    .btn--checkMenu {
+        display: block;
     }
 }

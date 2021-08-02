@@ -95,7 +95,9 @@ function DetailCart() {
                     <tr key={idx}>
                       <td colSpan="7" >
                         <div className="detail-item">
-                          <img width="95" height="95" src={`${RESTFUL_URL}${c.ProductItemImage[0]['url']}`} alt={c.ProductItemTItle} />
+                          <div className="image-item">
+                            <img src={`${RESTFUL_URL}${c.ProductItemImage[0]['url']}`} alt={c.ProductItemTItle} />
+                          </div>
                           <div className="view-info">
                             <span>{c.ProductItemTItle}</span>
                             <span><strong>Accessory:&nbsp;&nbsp;</strong>Yes</span>

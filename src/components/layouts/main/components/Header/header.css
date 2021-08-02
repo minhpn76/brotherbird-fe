@@ -114,6 +114,7 @@
 }
 
 .menu_mobile {
+    cursor: pointer;
     width: 100%;
     background-color: #fff;
     padding: 20px;
@@ -149,11 +150,15 @@
     }
     .header .cart div {
         width: 10%;
+        display: block;
     }
     .menu_mobile .sub-menu {
         padding-left: 20px;
     }
+    .menu_mobile .sub-menu div:first-child {
+        padding-bottom: 0;
+    }
     .menu_mobile .sub-menu div {
-        padding-bottom: 5px;
+        padding: 7px;
     }
 }

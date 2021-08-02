@@ -8,7 +8,7 @@ import "./footer.css"
 function Footer() {
   const footers = [
     { label: 'FAQ', value: 'faq', link: pathRoutes.faq },
-    { label: 'POWERED BY SHOPIFY', value: 'powerByShopify', link: pathRoutes.pwerShopify },
+    { label: 'HOME', value: 'powerByShopify', link: pathRoutes.pwerShopify },
   ]
   return (
     <section className="footer">
