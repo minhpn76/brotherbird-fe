@@ -22,7 +22,7 @@ function Header() {
   const dispatch = useDispatch();
 
   const menus = [
-    { label: 'MENU', value: '', link: pathRoutes.home, sub: false },
+    { label: 'MENU', value: '', link: pathRoutes.pwerShopify, sub: false },
     { label: 'SHOP', value: 'collections', link: pathRoutes.collection, sub: true },
     { label: 'FAQ', value: 'faq', link: pathRoutes.faq, sub: false }
   ]
@@ -98,17 +98,30 @@ function Header() {
                 return (
                   <div className="block" key={idx} style={menu.link === pathRoutes.collection ? { position: 'relative' } : {}}>
                     {
-                      !menu.sub && (
-                        <div onClick={(e) => handlePushLink(e, menu.link)}
+                      idx === 0 ? (
+                        <div
                           className={'inline-menu'}
                         >
-                          <div><Nav.Link href={menu.link}>{menu.label}</Nav.Link></div>
+                          <div><Nav.Link target="_blank" href={menu.link}>{menu.label}</Nav.Link></div>
                           {
                             condition1 ? (
                               <div className="underLine"></div>
                             ) : null
                           }
                         </div>
+                      ) : (
+                        !menu.sub && (
+                          <div onClick={(e) => handlePushLink(e, menu.link)}
+                            className={'inline-menu'}
+                          >
+                            <div><Nav.Link href={menu.link}>{menu.label}</Nav.Link></div>
+                            {
+                              condition1 ? (
+                                <div className="underLine"></div>
+                              ) : null
+                            }
+                          </div>
+                        )
                       )
                     }
                     {
