@@ -22,7 +22,7 @@ function Footer() {
                     idx === 0 ? (
                       <a href={fo.link}>{fo.label}</a>
                     ) : (
-                      <a href={fo.link} target="_blank" download>{fo.label}</a>
+                      <a href={fo.link} target="_blank">{fo.label}</a>
                     )
                   }
                 </Col>
