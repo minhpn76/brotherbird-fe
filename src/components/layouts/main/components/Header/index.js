@@ -22,7 +22,7 @@ function Header() {
   const dispatch = useDispatch();
 
   const menus = [
-    { label: 'HOME', value: '', link: pathRoutes.home, sub: false },
+    { label: 'MENU', value: '', link: pathRoutes.home, sub: false },
     { label: 'SHOP', value: 'collections', link: pathRoutes.collection, sub: true },
     { label: 'FAQ', value: 'faq', link: pathRoutes.faq, sub: false }
   ]
