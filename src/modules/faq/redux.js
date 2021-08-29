@@ -11,7 +11,7 @@ const faqSlice = createSlice({
     initialState,
     reducers: {
       fetchContentFAQ: (state, action) => {
-        state.status = ReduxState.LOADING;
+        state = { ...initialState, status: ReduxState.LOADING };
       },
       fetchContentFAQSuccess: (
         state,

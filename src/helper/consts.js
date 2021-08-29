@@ -3,6 +3,8 @@ export const ACCESS_TOKEN_KEY = "access_token";
 export const REFRESH_ACCESS_TOKEN_KEY = "refresh_token";
 export const DEFAULT_WIDGET_REFETCH_INTERVAL = 10000; //10s
 
+export const RESTFUL_URL = process.env.REACT_APP_API_URL || "";
+
 export const RESPONSE_CODE = {
   TOKEN_EXPIRED: 401,
 };

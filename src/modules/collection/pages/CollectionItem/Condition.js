@@ -1,6 +1,12 @@
 import React, { memo } from "react";
+import {MarkDown} from '../../../../components/layouts/main/components'
 
-function Condition() {
+function Condition({description}) {
+  const htmlDecode = (input)=>{
+    var e = document.createElement('div');
+    e.innerHTML = input;
+    return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+  }
   return (
     <div className="item-desc">
       <p className="hash">ORDERING ONLINE</p>
@@ -78,7 +84,9 @@ function Condition() {
         flavour). Strictly no swapping/customisation of flavours.
       </p>
       <div className="hr-line"></div>
-      <p className="hash">PURCHASE THIS DATE-SLOT FOR THE MONTH OF JULY</p>
+      <MarkDown content={description}/>
+      {/* <div>{description}</div> */}
+      {/* <p className="hash">PURCHASE THIS DATE-SLOT FOR THE MONTH OF JULY</p>
       <p className="hash">JULY 2021 flavours</p>
       <p style={{ fontWeight: "bold", marginBottom: "0" }}>
         MANGO STICKY RICE TWICE-BAKED
@@ -115,7 +123,7 @@ function Condition() {
       </p>
       <p>
         <i>sugar glazed and sea salt</i>
-      </p>
+      </p> */}
     </div>
   );
 }

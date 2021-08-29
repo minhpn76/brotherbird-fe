@@ -8,7 +8,7 @@ import "./footer.css"
 function Footer() {
   const footers = [
     { label: 'FAQ', value: 'faq', link: pathRoutes.faq },
-    { label: 'POWERED BY SHOPIFY', value: 'powerByShopify', link: pathRoutes.pwerShopify },
+    { label: 'MENU', value: 'powerByShopify', link: pathRoutes.pwerShopify },
   ]
   return (
     <section className="footer">
@@ -18,7 +18,13 @@ function Footer() {
             footers.map((fo, idx) => {
               return (
                 <Col md={{ span: 3, offset: idx === 0 ? 3 : 0 }} className="item" key={idx}>
-                  <a href={fo.link}>{fo.label}</a>
+                  {
+                    idx === 0 ? (
+                      <a href={fo.link}>{fo.label}</a>
+                    ) : (
+                      <a href={fo.link} target="_blank">{fo.label}</a>
+                    )
+                  }
                 </Col>
               )
             })

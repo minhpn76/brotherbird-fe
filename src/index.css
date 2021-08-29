@@ -8,7 +8,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   
 }
-
+.Toastify__toast {
+  border: 1px solid #ddd;
+}
+.Toastify__progress-bar {
+  background: rgba(255, 124, 2, 0.74)!important;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -73,4 +78,42 @@ a:hover {
 
 .info .contact h6 {
   margin-bottom: 20px
+}
+.loading-bar-redux {
+  background-color: rgba(255, 124, 2, 0.74);
+  height: 0.188rem;
+  position: absolute;
+  z-index: 110;
+}
+.info_mobile {
+  display: none;
+}
+
+@media only screen and (max-width: 480px) {
+  .product .pre {
+    padding-top: 50px;
+  }
+  .info {
+    height: 585px;
+    margin: 0 20px;
+    
+  }
+  .line {
+    height: 30px;
+  }
+  .info .contact {
+    display: none;
+  }
+  .info_mobile {
+    display: block;
+    background-color: #E5E7EB;
+  }
+  .info_mobile .contact {
+    background-color: #E5E7EB;
+    padding: 20px;
+    text-align: center;
+  }
+  .fk_bg_mobile {
+    background-color: #E5E7EB;
+  }
 }

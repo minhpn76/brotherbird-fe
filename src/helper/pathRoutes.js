@@ -4,10 +4,11 @@ const paths = {
     register: '/register',
     collection: '/collections',
     faq: '/faq',
-    pwerShopify: '#',
-    instagram: '#',
+    pwerShopify: '/docs/suguru-menu.pdf',
+    instagram: 'https://www.instagram.com/suguruhomedining/?hl=en',
     product: '/products',
-    cart: '/cart'
+    cart: '/cart',
+    bill: '/bill',
   };
   
   export default paths;

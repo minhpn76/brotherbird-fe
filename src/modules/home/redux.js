@@ -13,7 +13,7 @@ const homeSlice = createSlice({
     initialState,
     reducers: {
       shopStart: (state, action) => {
-        state.status = ReduxState.LOADING;
+        state = { ...initialState, status: ReduxState.LOADING };
       },
       shopSuccess: (
         state,

@@ -11,15 +11,19 @@
 .collections .list-product .prd {
     margin-bottom: 50px;
 }
-.collections .list-product .prd .section {
+.collections .prd .section {
     cursor: pointer;
 }
 .collections .img {
     width: 100%;
-    height: 250px;
-    padding: 15px;
+    height: 350px;
+    /* padding: 15px; */
     background-color: #e4e8eb;
     position: relative;
+}
+.collections .img img {
+    height: 100%;
+    width: 100%;
 }
 .collections .img .top {
     border-bottom: 1px solid #bdc1c4;
@@ -51,7 +55,12 @@
     margin-top: 15px;
 }
 .collections .name {
-    margin-bottom: 0;
+    margin-bottom: 10px;
+    font-weight: 600;
+
+}
+.collections .name.hover {
+    text-decoration: underline;
 }
 .collections .price {
     margin-top: 5px;
@@ -62,4 +71,55 @@
     padding: 5px;
     border-radius: 2px;
     font-size: 13px;
+    font-weight: 600;
+}
+
+.collections .sold-out:hover {
+    border: 1px solid #fff;
+    color: #fff;
+    border-radius: 2px;
+    background-color: #000;
+}
+
+.list-collection {
+    margin-top: 50px;
+}
+.list-collection .collection-item {
+    position: relative;
+    cursor: pointer;
+} 
+.list-collection .collection-item:hover{
+    background: radial-gradient(#0000001a, transparent);
+}
+.list-collection .collection-item:hover h3 {
+    color: #fff;
+}
+
+.list-collection .collection-item img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover
+}
+
+.list-collection .collection-item h3 {
+    position: absolute;
+    top: 45%;
+    left: 39%;
+}
+
+@media only screen and (max-width: 480px) {
+    .collections .list-product {
+        margin-top: 30px;
+    }
+    .collections .img {
+        height: 215px;
+    }
+    .tile .name {
+        font-size: 14px;
+        padding: 2px 0;
+    }
+    .tile .price {
+        font-size: 15px;
+        padding: 2px 0;
+    }
 }

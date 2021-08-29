@@ -1,22 +1,39 @@
 import React, { memo, useState, useImperativeHandle, forwardRef, useRef } from "react";
 import Button from "react-bootstrap/Button";
-import IconShuShi from '../../../../assets/images/shushi.png'
+import {RESTFUL_URL} from '../../../../helper/consts'
 import {typeActionKind} from '../../../../helper/utils'
+import {caculatedItem} from '../../../../helper/utils'
+import { fetchCart, fetchCheckout } from "../../redux"
+import { useDispatch, useSelector } from "react-redux"
+import { cloneDeep } from "lodash";
 
 function Kind(props, ref) {
+  const dispatch = useDispatch();
+
   const {
-    baseProduct, kindProduct, 
-    handleChooseKind,
-    handleSoldOut
+    quanlityItemBase, kindProduct, 
+    handleSoldOut, cart, productParentItem
   } = props;
 
+  const handleChooseKind = ({type, item, e}) => {
+    dispatch(fetchCart({
+      type,
+      product: {
+        ...item,
+        productParentItem
+      },
+      valued: e,
+      deleted: false,
+      temp: true  
+    }))
+  }
   return (
     <>
       <div className="kind">
         <div className="quanlity">
-          <span>Quanlity</span>
+          <span>Quantity</span>
           <input min="1" max="100" type="number" defaultValue={1}
-          value={baseProduct.quanlity}/>
+          value={quanlityItemBase || 1}/>
         </div>
         <div className="list-kind">
           {
@@ -27,10 +44,12 @@ function Kind(props, ref) {
                     onChange={(e) => {handleChooseKind({type: typeActionKind.SELECT,item: p, e})}}
                   />
                   <div className="inform">
-                    <img src={p.image} alt="item" />
+                    <div className="inform-item">
+                      <img src={`${RESTFUL_URL}${p.ProductItemImage[0]['url']}`} alt={p.ProductItemTItle} />
+                    </div>
                     <div className="accessy-item">
-                      <span>{p.name}</span>
-                      <span className="price">${p.price.toFixed(2)}</span>
+                      <span>{p.ProductItemTItle}</span>
+                      <span className="price">${p.ProductItemPrice.toFixed(2)}</span>
                       <input 
                         onChange={(e) => {handleChooseKind({type: typeActionKind.QUANTITY,item: p, e})}}
                         min="1" max="100" type="number" defaultValue={1} 
@@ -44,7 +63,7 @@ function Kind(props, ref) {
         </div>
       </div>
       <div className="checkout">
-        <Button variant="dark" onClick={handleSoldOut}>Sold out</Button>
+        <Button variant="dark" onClick={(e) => handleSoldOut(e)}>Order</Button>
       </div>
     </>
   );

@@ -1,6 +1,5 @@
 import HttpClient from "../index";
-
-const RESTFUL_URL = process.env.REACT_APP_API_URL || "";
+import {RESTFUL_URL} from '../../../helper/consts'
 
 export default class HttpServices extends HttpClient {
     classInstance = null;

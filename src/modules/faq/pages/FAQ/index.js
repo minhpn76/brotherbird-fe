@@ -6,19 +6,20 @@ import Col from "react-bootstrap/Col";
 import './faq.css';
 import {fetchContentFAQ} from '../../redux'
 import { useDispatch } from "react-redux";
+import {MarkDown} from '../../../../components/layouts/main/components'
 
-function FAQ() {
+function FAQ() { 
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(fetchContentFAQ())
-  }, [])
+  }, [dispatch])
   const faqContent = useSelector(
     state => state.faq.faq
   );
 
   return (
     <div className="faq">
-      <Container style={{padding: '50px 0'}}> 
+      <Container style={{paddingTop: '50px', paddingBottom: '50px'}}> 
         <Row>
           <Col md="12" style={{textAlign: 'center'}}>
             <h3>{faqContent.faqTitle}</h3>
@@ -26,7 +27,7 @@ function FAQ() {
         </Row>
         <Row style={{margin: '30px 0 10px 0'}}>
           <Col md="12">
-            {faqContent.faqDescription}
+            <MarkDown content={faqContent.faqDescription} />
           </Col>
           {/* <Col md="12">
             <h6 className="tte">ORDERING ONLINE</h6>

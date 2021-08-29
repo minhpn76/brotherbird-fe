@@ -1,10 +1,10 @@
-import React, { memo, useState } from "react";
+import React, { memo, useMemo, useState } from "react";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from 'react-bootstrap/Button'
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import IconShuShi from '../../../../assets/images/shushi.png'
 import Condition from './Condition';
@@ -13,73 +13,126 @@ import pathRoutes from '../../../../helper/pathRoutes'
 import './collection-item.css'
 import {caculatedItem} from '../../../../helper/utils'
 import Storage from '../../../../helper/storage';
-
-let kindProduct = [
-  { id: 1, name: 'ICED COLD BREW (WHITE)', price: 7, quanlity: 1, image: IconShuShi, selected: false},
-  { id: 2, name: 'CED COLD BREW (BLACK)', price: 7, quanlity: 1, image: IconShuShi, selected: false},
-  { id: 3, name: 'ICED MATCHA COLD BREW', price: 7, quanlity: 1, image: IconShuShi, selected: false},
-]
+import { cloneDeep, isEmpty } from "lodash";
+import {RESTFUL_URL} from '../../../../helper/consts'
+import { fetchCheckout } from "../../redux";
+import { unwrapResult } from '@reduxjs/toolkit';
+import Slider from "react-slick";
 
 function CollectionItem(props) {
   const history = useHistory();
-  
-  const shopSelected = useSelector(
-    state => state.home.data.shop
-  );
-  
+  const params = useParams();
+  const dispatch = useDispatch();
+  const location = useLocation()
+
+  const {collections, product} = useSelector(
+    state => state.collection
+  )
+
+  const collectionSelected = useMemo(() => {
+    return collections.find(c => c.slugs === params.shop)
+  }, [params.shop, location.key])
+
+  const cart = useSelector(state => state.collection.cart || [])
+
   const handleBackShop = (e) => {
     e.preventDefault();
-    history.push(`${pathRoutes.collection}/${shopSelected.path}`)
+    history.push(`${pathRoutes.collection}/${collectionSelected.slugs}`)
   }
 
-  const [baseProduct, setBaseProduct] = useState({
-    id: 0,
-    quanlity: null
-  })
-  
-  const handleChooseKind = ({type, item, e}) => {
-    let newArray = caculatedItem({kindProduct, payload: {type, item, e}})
-    kindProduct = newArray
-  }
-
-  const handleSoldOut = (e) => {
+  const handleSoldOut = async (e) => {
     e.preventDefault();
-    Storage.set('cart', JSON.stringify(kindProduct.filter(i => i.selected)))
-    history.push(pathRoutes.cart)
+    const resps = await dispatch(fetchCheckout(true))
+    const status = unwrapResult(resps);
+    if (status) {
+      history.push(pathRoutes.cart)
+    }
   }
 
-  
-  const params = useParams();
+  const listProducImg = useMemo(() => {
+    if(isEmpty(product)) {
+      return []
+    }
+    const prodImage = product.productImage[0]['url']
+    let temp = [prodImage]
+    if (!isEmpty(product.ProductItems)) {
+      product.ProductItems.forEach(element => {
+        temp = [
+          ...temp,
+          element.ProductItemImage[0]['url']
+        ]
+      });
+    }
+    return temp
+  }, [product])
+
+  const settings = {
+    dots: false,
+    infinite: false,
+    vertical: false,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 3,
+    initialSlide: 0,
+    arrows: false,
+  }
+
+  const [selectedImage,setSelectedImage] = useState('')
   return (
     <div className="collection-item">
-      <Container style={{ padding: "50px 0" }}>
-        <Row>
-          <Col md="6" style={{ textAlign: "center" }}>
-            <img src={IconShuShi} style={{width: '100%'}} alt="product"/>
-          </Col>
-          <Col md="6">
-            <div className="path">
-              <p className="name">*{params['item'].toUpperCase()}</p>
-              <span className="price">$32.00</span>
-              <span className="status-item">SOLD OUT</span>
-            </div>
-            <Kind 
-              baseProduct={baseProduct}
-              kindProduct={kindProduct}
-              handleChooseKind={handleChooseKind}
-              handleSoldOut={handleSoldOut}
-            />
-            <Condition/>
-          </Col>
-          <Col md="12" style={{textAlign: 'center', marginTop: '100px'}}>
-            <Button variant="outline-dark"
-              onClick={(e) => handleBackShop(e)}
-            >
-              {`BACK TO ${shopSelected.month} ${shopSelected.year}`.toUpperCase()}
-            </Button>
-          </Col>
-        </Row>
-      </Container>
+      {
+        !isEmpty(product) && (
+          <Container style={{ paddingTop: "50px", paddingBottom: "50px" }}>
+            <Row>
+              <Col md="6" style={{ textAlign: "center" }}>
+                <img className="imgProd" 
+                  src={selectedImage?`${RESTFUL_URL}${selectedImage}`:`${RESTFUL_URL}${product.productImage[0]['url']}`} 
+                  alt={product.ProductTitle}
+                />
+                <div className="slideImgProd">
+                  <Slider {...settings}>
+                    {
+                      listProducImg.map((prodImg, idx) => {
+                        return (
+                          <div className="blockImg" onClick={() => setSelectedImage(prodImg)}>
+                            <img style={selectedImage===prodImg?{border: '2px solid'}:{}} src={`${RESTFUL_URL}${prodImg}`} alt={idx}/>
+                          </div>
+                        )
+                      })
+                    }
+                  </Slider>
+                  
+                </div>
+              </Col>
+              <Col md="6">
+                <div className="path">
+                  <p className="name">{product.ProductTitle}</p>
+                  {/* <span className="price">$32.00</span> */}
+                  <span className="status-item">ENJOY NOW</span>
+                </div>
+                <Kind 
+                  quanlityItemBase={product.quanlity}
+                  kindProduct={product.ProductItems}
+                  handleSoldOut={handleSoldOut}
+                  cart={cart}
+                  productParentItem={+ params.item}
+                />
+                <Condition
+                  description={product.Description}
+                />
+              </Col>
+              <Col md="12" style={{textAlign: 'center', marginTop: '100px'}}>
+                <Button variant="outline-dark"
+                  onClick={(e) => handleBackShop(e)}
+                >
+                  {`BACK TO ${collectionSelected?collectionSelected.collectionName:params.item.replace('-', '').toUpperCase()}`}
+                </Button>
+              </Col>
+            </Row>
+          </Container>
+        )
+      }
+      
     </div>
   );
 }
